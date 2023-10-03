@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import StaffForm from '@/components/organisms/StaffForm'
-import DefaultLayout from '@/components/templates/DefaultLayout'
 import updateStaff from '@/services/staffs/updateStaff'
 import useStaff from '@/services/staffs/useStaff'
 import { Staff } from '@/types/staff'
@@ -34,16 +33,14 @@ const StaffEditPage = () => {
 
   return (
     <LoginRequired>
-      <DefaultLayout>
-        <Card title='担当者マスタ編集' loading={isLoading} bordered>
-          <StaffForm
-            form={form}
-            onSave={handleSubmit}
-            buttonText='保存'
-            loading={isSaving}
-          />
-        </Card>
-      </DefaultLayout>
+      <Card title='担当者マスタ編集' loading={isLoading} bordered>
+        <StaffForm
+          form={form}
+          onSave={handleSubmit}
+          buttonText='保存'
+          loading={isSaving}
+        />
+      </Card>
     </LoginRequired>
   )
 }

@@ -6,7 +6,6 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import SearchForm from '@/components/molecules/SearchForm'
-import DefaultLayout from '@/components/templates/DefaultLayout'
 import exportStaffCsv from '@/services/staffs/exportStaffCsv'
 import useStaffSearch from '@/services/staffs/useStaffSearch'
 import usePagination from '@/services/usePagination'
@@ -104,90 +103,88 @@ const StaffSearchPage = () => {
 
   return (
     <LoginRequired>
-      <DefaultLayout>
-        <Card
-          title='担当者マスタ検索'
-          extra={
-            <Button
-              type='primary'
-              icon={<PlusOutlined />}
-              style={{ minWidth: 100 }}
-              onClick={() => {
-                navigate('/system/staffs/new')
-              }}
-              ghost
-            >
-              新規登録
-            </Button>
-          }
-          bordered
-        >
-          <SearchForm
-            form={form}
-            name='staffSearchForm'
-            expandable
-            onExpandChange={onExpandChange}
-            onFinish={handleSearch}
+      <Card
+        title='担当者マスタ検索'
+        extra={
+          <Button
+            type='primary'
+            icon={<PlusOutlined />}
+            style={{ minWidth: 100 }}
+            onClick={() => {
+              navigate('/system/staffs/new')
+            }}
+            ghost
           >
+            新規登録
+          </Button>
+        }
+        bordered
+      >
+        <SearchForm
+          form={form}
+          name='staffSearchForm'
+          expandable
+          onExpandChange={onExpandChange}
+          onFinish={handleSearch}
+        >
+          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item name='fullName' label='氏名'>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name='email' label='メールアドレス'>
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {expanded && (
             <Row gutter={24}>
               <Col span={8}>
-                <Form.Item name='fullName' label='氏名'>
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item name='email' label='メールアドレス'>
+                <Form.Item name='tel' label='電話番号'>
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
-            {expanded && (
-              <Row gutter={24}>
-                <Col span={8}>
-                  <Form.Item name='tel' label='電話番号'>
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-            )}
-          </SearchForm>
-          <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Row align='middle' justify='end'>
-              <Col>
-                <Button
-                  type='primary'
-                  icon={<DownloadOutlined />}
-                  style={{ minWidth: 100 }}
-                  disabled={!data?.count}
-                  onClick={handleCsvExport}
-                >
-                  CSVダウンロード
-                </Button>
-              </Col>
-            </Row>
-            <Table
-              rowKey='id'
-              bordered
-              loading={isLoading}
-              rowSelection={rowSelection}
-              dataSource={data?.data}
-              columns={columns}
-              pagination={{
-                total: data?.count,
-                current: pagination.current,
-                pageSize: pagination.pageSize,
-                showTotal: (total, range) =>
-                  `${total}件中、${range[0]}〜${range[1]}件を表示`,
-                showSizeChanger: true,
-                defaultPageSize: 20,
-                pageSizeOptions: ['20', '50', '100'],
-              }}
-              onChange={handleTableChange}
-              size='small'
-            />
-          </Space>
-        </Card>
-      </DefaultLayout>
+          )}
+        </SearchForm>
+        <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
+          <Row align='middle' justify='end'>
+            <Col>
+              <Button
+                type='primary'
+                icon={<DownloadOutlined />}
+                style={{ minWidth: 100 }}
+                disabled={!data?.count}
+                onClick={handleCsvExport}
+              >
+                CSVダウンロード
+              </Button>
+            </Col>
+          </Row>
+          <Table
+            rowKey='id'
+            bordered
+            loading={isLoading}
+            rowSelection={rowSelection}
+            dataSource={data?.data}
+            columns={columns}
+            pagination={{
+              total: data?.count,
+              current: pagination.current,
+              pageSize: pagination.pageSize,
+              showTotal: (total, range) =>
+                `${total}件中、${range[0]}〜${range[1]}件を表示`,
+              showSizeChanger: true,
+              defaultPageSize: 20,
+              pageSizeOptions: ['20', '50', '100'],
+            }}
+            onChange={handleTableChange}
+            size='small'
+          />
+        </Space>
+      </Card>
     </LoginRequired>
   )
 }

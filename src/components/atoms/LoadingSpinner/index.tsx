@@ -41,7 +41,6 @@ const styles = {
     justify-content: center;
     align-items: center;
     z-index: 1200;
-    background-color: white;
     animation: ${spinnerAnimation} 1s linear infinite;
   `,
 }

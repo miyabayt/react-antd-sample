@@ -1,6 +1,9 @@
 import { Global, css } from '@emotion/react'
 import { Layout } from 'antd'
 
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import AppBreadcrumb from '@/components/molecules/AppBreadcrumb'
 import AppFooter from '@/components/organisms/AppFooter'
 import AppHeader from '@/components/organisms/AppHeader'
@@ -9,11 +12,7 @@ import { globalStyles } from '@/styles/globals'
 
 const { Content } = Layout
 
-type LayoutProps = Required<{
-  readonly children: React.ReactElement
-}>
-
-const DefaultLayout = ({ children }: LayoutProps) => {
+const DefaultLayout = () => {
   return (
     <Layout>
       <Global styles={globalStyles} />
@@ -23,7 +22,9 @@ const DefaultLayout = ({ children }: LayoutProps) => {
         <div css={styles.contentContainer}>
           <Content css={styles.content}>
             <AppBreadcrumb />
-            {children}
+            <React.Suspense fallback={<LoadingSpinner loading={true} />}>
+              <Outlet />
+            </React.Suspense>
           </Content>
         </div>
         <AppFooter />

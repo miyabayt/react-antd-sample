@@ -1,23 +1,32 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import NProgressIndicator from '@/components/atoms/NProgressIndicator'
-import routes from '@/configs/routes'
+import routes, { RouteConfig } from '@/configs/routes'
 import LoginPage from '@/pages/login'
 
 function App() {
+  const renderRoutes = (routes: RouteConfig[]) => {
+    return routes.map((route, i) => {
+      if (route.children) {
+        return (
+          <Route key={i} element={route.element}>
+            <Route>{renderRoutes(route.children)}</Route>
+          </Route>
+        )
+      } else {
+        return <Route key={i} path={route.path} element={route.element} />
+      }
+    })
+  }
+
   return (
     <BrowserRouter>
       <NProgressIndicator />
-      <React.Suspense fallback={<LoadingSpinner loading={true} />}>
-        <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          {routes.map((route, i) => (
-            <Route key={i} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </React.Suspense>
+      <Routes>
+        <Route path='/login' element={<LoginPage />} />
+        {renderRoutes(routes)}
+      </Routes>
     </BrowserRouter>
   )
 }

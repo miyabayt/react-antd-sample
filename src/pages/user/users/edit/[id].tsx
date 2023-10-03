@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import UserForm from '@/components/organisms/UserForm'
-import DefaultLayout from '@/components/templates/DefaultLayout'
 import updateUser from '@/services/users/updateUser'
 import useUser from '@/services/users/useUser'
 import { User } from '@/types/user'
@@ -35,16 +34,14 @@ const UserEditPage = () => {
 
   return (
     <LoginRequired>
-      <DefaultLayout>
-        <Card title='顧客マスタ編集' loading={isLoading} bordered>
-          <UserForm
-            form={form}
-            onSave={handleSubmit}
-            buttonText='保存'
-            loading={isSaving}
-          />
-        </Card>
-      </DefaultLayout>
+      <Card title='顧客マスタ編集' loading={isLoading} bordered>
+        <UserForm
+          form={form}
+          onSave={handleSubmit}
+          buttonText='保存'
+          loading={isSaving}
+        />
+      </Card>
     </LoginRequired>
   )
 }

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import HolidayForm from '@/components/organisms/HolidayForm'
-import DefaultLayout from '@/components/templates/DefaultLayout'
 import createHoliday from '@/services/holidays/createHoliday'
 import { Holiday } from '@/types/holiday'
 
@@ -27,16 +26,14 @@ const HolidayNewPage = () => {
 
   return (
     <LoginRequired>
-      <DefaultLayout>
-        <Card title='祝日マスタ登録' bordered>
-          <HolidayForm
-            form={form}
-            onSave={handleSubmit}
-            buttonText='登録'
-            loading={isLoading}
-          />
-        </Card>
-      </DefaultLayout>
+      <Card title='祝日マスタ登録' bordered>
+        <HolidayForm
+          form={form}
+          onSave={handleSubmit}
+          buttonText='登録'
+          loading={isLoading}
+        />
+      </Card>
     </LoginRequired>
   )
 }

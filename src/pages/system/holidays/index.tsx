@@ -16,7 +16,6 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import SearchForm from '@/components/molecules/SearchForm'
-import DefaultLayout from '@/components/templates/DefaultLayout'
 import exportHolidayCsv from '@/services/holidays/exportHolidayCsv'
 import useHolidaySearch from '@/services/holidays/useHolidaySearch'
 import usePagination from '@/services/usePagination'
@@ -104,79 +103,77 @@ const HolidaySearchPage = () => {
 
   return (
     <LoginRequired>
-      <DefaultLayout>
-        <Card
-          title='祝日マスタ検索'
-          extra={
-            <Button
-              type='primary'
-              icon={<PlusOutlined />}
-              style={{ minWidth: 100 }}
-              onClick={() => {
-                navigate('/system/holidays/new')
-              }}
-              ghost
-            >
-              新規登録
-            </Button>
-          }
-          bordered
-        >
-          <SearchForm
-            form={form}
-            name='holidaySearchForm'
-            onFinish={handleSearch}
+      <Card
+        title='祝日マスタ検索'
+        extra={
+          <Button
+            type='primary'
+            icon={<PlusOutlined />}
+            style={{ minWidth: 100 }}
+            onClick={() => {
+              navigate('/system/holidays/new')
+            }}
+            ghost
           >
-            <Row gutter={24}>
-              <Col span={8}>
-                <Form.Item name='holidayName' label='名称'>
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item name='holidayDate' label='日付'>
-                  <DatePicker style={{ minWidth: 180 }} />
-                </Form.Item>
-              </Col>
-            </Row>
-          </SearchForm>
-          <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Row align='middle' justify='end'>
-              <Col>
-                <Button
-                  type='primary'
-                  icon={<DownloadOutlined />}
-                  style={{ minWidth: 100 }}
-                  disabled={!data?.count}
-                  onClick={handleCsvExport}
-                >
-                  CSVダウンロード
-                </Button>
-              </Col>
-            </Row>
-            <Table
-              rowKey='id'
-              bordered
-              loading={isLoading}
-              rowSelection={rowSelection}
-              dataSource={data?.data}
-              columns={columns}
-              pagination={{
-                total: data?.count,
-                current: pagination.current,
-                pageSize: pagination.pageSize,
-                showTotal: (total, range) =>
-                  `${total}件中、${range[0]}〜${range[1]}件を表示`,
-                showSizeChanger: true,
-                defaultPageSize: 20,
-                pageSizeOptions: ['20', '50', '100'],
-              }}
-              onChange={handleTableChange}
-              size='small'
-            />
-          </Space>
-        </Card>
-      </DefaultLayout>
+            新規登録
+          </Button>
+        }
+        bordered
+      >
+        <SearchForm
+          form={form}
+          name='holidaySearchForm'
+          onFinish={handleSearch}
+        >
+          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item name='holidayName' label='名称'>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name='holidayDate' label='日付'>
+                <DatePicker style={{ minWidth: 180 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </SearchForm>
+        <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
+          <Row align='middle' justify='end'>
+            <Col>
+              <Button
+                type='primary'
+                icon={<DownloadOutlined />}
+                style={{ minWidth: 100 }}
+                disabled={!data?.count}
+                onClick={handleCsvExport}
+              >
+                CSVダウンロード
+              </Button>
+            </Col>
+          </Row>
+          <Table
+            rowKey='id'
+            bordered
+            loading={isLoading}
+            rowSelection={rowSelection}
+            dataSource={data?.data}
+            columns={columns}
+            pagination={{
+              total: data?.count,
+              current: pagination.current,
+              pageSize: pagination.pageSize,
+              showTotal: (total, range) =>
+                `${total}件中、${range[0]}〜${range[1]}件を表示`,
+              showSizeChanger: true,
+              defaultPageSize: 20,
+              pageSizeOptions: ['20', '50', '100'],
+            }}
+            onChange={handleTableChange}
+            size='small'
+          />
+        </Space>
+      </Card>
     </LoginRequired>
   )
 }
