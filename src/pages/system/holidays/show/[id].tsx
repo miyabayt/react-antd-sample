@@ -1,7 +1,7 @@
-import { EditOutlined } from '@ant-design/icons'
-import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { EditOutlined } from '@ant-design/icons'
+import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import deleteHoliday from '@/services/holidays/deleteHoliday'

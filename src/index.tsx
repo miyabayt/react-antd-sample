@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
 import 'antd/dist/reset.css'
 import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
-import { antdTheme } from '@/configs/theme'
-import { App as AntdApp, ConfigProvider } from 'antd'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { App as AntdApp, ConfigProvider } from 'antd'
 
 import jaJP from 'antd/locale/ja_JP'
+import { antdTheme } from '@/configs/theme'
+import App from './App'
+import reportWebVitals from './reportWebVitals'
 
 const queryClient = new QueryClient({
   defaultOptions: {

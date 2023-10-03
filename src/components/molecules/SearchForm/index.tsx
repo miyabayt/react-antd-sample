@@ -1,6 +1,6 @@
+import React, { useState } from 'react'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Col, Form, FormInstance, Row, Space } from 'antd'
-import React, { useState } from 'react'
 
 interface SearchFormProps {
   form: FormInstance

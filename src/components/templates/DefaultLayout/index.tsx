@@ -1,8 +1,8 @@
+import React from 'react'
+import { Outlet } from 'react-router-dom'
 import { Global, css } from '@emotion/react'
 import { Layout } from 'antd'
 
-import React from 'react'
-import { Outlet } from 'react-router-dom'
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import AppBreadcrumb from '@/components/molecules/AppBreadcrumb'
 import AppFooter from '@/components/organisms/AppFooter'

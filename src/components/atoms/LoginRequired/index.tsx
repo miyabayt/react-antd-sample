@@ -1,6 +1,6 @@
-import Cookie from 'js-cookie'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Cookie from 'js-cookie'
 
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import getLoginUser from '@/services/auth/getLoginUser'

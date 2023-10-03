@@ -1,6 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 import { Button, Col, Form, FormInstance, Input, Row, Space } from 'antd'
 
-import { useNavigate } from 'react-router-dom'
 import { Staff } from '@/types/staff'
 
 interface StaffFormProps {

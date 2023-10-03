@@ -1,16 +1,6 @@
-import { LeftSquareOutlined, SaveOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  FormInstance,
-  Input,
-  Row,
-  Space,
-} from 'antd'
-
 import { useNavigate } from 'react-router-dom'
+import { Button, DatePicker, Form, FormInstance, Input, Row, Space } from 'antd'
+
 import { Holiday } from '@/types/holiday'
 
 interface HolidayFormProps {
