@@ -14,8 +14,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
-    "incremental": true,
-    "baseUrl": "./src",
+    "incremental": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "src/**/*.spec.ts"],
