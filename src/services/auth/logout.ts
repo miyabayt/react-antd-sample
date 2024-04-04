@@ -11,14 +11,14 @@ const logout = async (
   const { resetLoginUser } = useAuthStore.getState()
   const clearAuth = (response: AxiosResponse) => {
     Cookie.remove('access_token')
-    Cookie.remove('refrest_token')
+    Cookie.remove('refresh_token')
     resetLoginUser()
     return Promise.resolve(response)
   }
 
   return axiosInstance
     .request({
-      url: '/auth/logout',
+      url: process.env.REACT_APP_API_BASE_URL + '/auth/logout',
       method: 'POST',
       data: { accessToken, refreshToken },
     })
