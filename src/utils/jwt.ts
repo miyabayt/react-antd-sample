@@ -5,7 +5,7 @@ export const isTokenExpired = (accessToken: string | undefined): boolean => {
     return false
   }
   const expires = decodeJwt(accessToken).exp
-  return expires * 1000 < Date.now()
+  return expires * 1000 < Date.now() - 30000
 }
 
 const decodeJwt = (accessToken: string) => {
