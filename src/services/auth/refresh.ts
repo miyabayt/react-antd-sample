@@ -12,7 +12,7 @@ const refresh = async (
 ): Promise<{ data: AccessToken; success: boolean; message: string }> => {
   return await axios
     .request({
-      url: '/auth/refresh',
+      url: process.env.REACT_APP_API_BASE_URL + '/auth/refresh',
       method: 'POST',
       data: { accessToken, refreshToken },
       headers: {
@@ -27,7 +27,7 @@ const refresh = async (
     })
     .catch((e) => {
       Cookie.remove('access_token')
-      Cookie.remove('refrest_token')
+      Cookie.remove('refresh_token')
       return Promise.reject(e)
     })
 }
