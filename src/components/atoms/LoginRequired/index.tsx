@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Cookie from 'js-cookie'
 
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import getLoginUser from '@/services/auth/getLoginUser'
 import useAuthStore from '@/stores/useAuthStore'
-import { isTokenExpired } from '@/utils/jwt'
 
 type LoginRequiredProps = {
   children: React.ReactNode
 }
+
+type PromiseResolver = (() => void) | null
+
+let isTokenRefreshing = false
+let refreshPromiseResolver: PromiseResolver = null
 
 const LoginRequired = ({ children }: LoginRequiredProps) => {
   const location = useLocation()
@@ -22,33 +25,44 @@ const LoginRequired = ({ children }: LoginRequiredProps) => {
 
   useEffect(() => {
     const checkAuth = async () => {
+      if (isTokenRefreshing) {
+        await new Promise<void>((resolve) => {
+          refreshPromiseResolver = resolve
+        })
+        return
+      }
+
+      let valid = false
+      isTokenRefreshing = true
       setIsLoading(true)
       try {
-        const accessToken = Cookie.get('access_token')
-        const expired = isTokenExpired(accessToken)
-        if (expired || !accessToken) {
-          console.log('checkAuth: invalid')
-          setIsTokenValid(false)
-          setRedirectTo(location.pathname)
-          navigate('/login')
-        } else {
+        const { data: loginUser, success } = await getLoginUser()
+        if (success) {
           console.log('checkAuth: valid')
           setIsTokenValid(true)
-          if (!loginUser) {
-            const { data: loginUser, success } = await getLoginUser()
-            if (success) {
-              setLoginUser(loginUser)
-            }
-          }
+          setLoginUser(loginUser)
+          valid = true
         }
       } finally {
+        if (!valid) {
+          console.log('checkAuth: invalid')
+          setIsTokenValid(false)
+          setLoginUser(undefined)
+          setRedirectTo(location.pathname)
+          navigate('/login')
+        }
+        isTokenRefreshing = false
+        if (refreshPromiseResolver) {
+          refreshPromiseResolver()
+          refreshPromiseResolver = null
+        }
         setIsLoading(false)
       }
     }
 
     if (!isLoading) checkAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loginUser])
+  }, [])
 
   if (!loginUser || !isTokenValid) {
     console.log('loading...')

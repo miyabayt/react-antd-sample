@@ -1,21 +1,15 @@
-import axios from 'axios'
-import Cookie from 'js-cookie'
-
 import { LoginUser } from '@/types'
+import axiosInstance from '@/utils/axios'
 
 const getLoginUser = async (): Promise<{
   data: LoginUser
   success: boolean
   message: string
 }> => {
-  const accessToken = Cookie.get('access_token')
-  return axios
+  return axiosInstance
     .request({
-      url: process.env.REACT_APP_API_BASE_URL + '/auth/me',
+      url: '/auth/me',
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     })
     .then(({ data }) => data)
 }
