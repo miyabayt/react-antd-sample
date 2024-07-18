@@ -68,7 +68,7 @@ const StaffSearchPage = () => {
     {
       title: '氏名',
       dataIndex: 'fullName',
-      render: (_text, record) => `${record.fullName}`,
+      render: (_text, record) => `${record.lastName} ${record.firstName}`,
     },
     {
       title: 'メールアドレス',
