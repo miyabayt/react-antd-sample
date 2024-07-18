@@ -1,26 +1,24 @@
 import { AxiosResponse } from 'axios'
-import Cookie from 'js-cookie'
 
 import useAuthStore from '@/stores/useAuthStore'
-import axiosInstance from '@/utils/axios'
+import axiosInstance, { getAccessToken } from '@/utils/axios'
 
-const logout = async (
-  accessToken: string | undefined,
-  refreshToken: string | undefined,
-): Promise<AxiosResponse> => {
+const logout = async (): Promise<AxiosResponse> => {
+  const accessToken = getAccessToken()
   const { resetLoginUser } = useAuthStore.getState()
   const clearAuth = (response: AxiosResponse) => {
-    Cookie.remove('access_token')
-    Cookie.remove('refresh_token')
     resetLoginUser()
     return Promise.resolve(response)
   }
 
   return axiosInstance
     .request({
-      url: process.env.REACT_APP_API_BASE_URL + '/auth/logout',
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+      url: '/auth/logout',
       method: 'POST',
-      data: { accessToken, refreshToken },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
     .then((response) => {
       return clearAuth(response)
@@ -29,7 +27,6 @@ const logout = async (
       if (response.status < 500) {
         return clearAuth(response)
       }
-
       return Promise.reject(response)
     })
 }

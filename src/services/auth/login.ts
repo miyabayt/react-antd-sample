@@ -1,9 +1,8 @@
 import axios from 'axios'
-import Cookie from 'js-cookie'
+import { setAccessToken } from '@/utils/axios'
 
 interface AccessToken {
   accessToken: string
-  refreshToken: string
 }
 
 const login = async (
@@ -12,14 +11,14 @@ const login = async (
 ): Promise<{ data: AccessToken; success: boolean; message: string }> => {
   return axios
     .request({
-      url: process.env.REACT_APP_API_BASE_URL + '/auth/login',
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+      url: '/auth/login',
       method: 'POST',
       data: { username, password },
     })
     .then(({ data }) => {
-      const { accessToken, refreshToken } = data?.data as AccessToken
-      Cookie.set('access_token', accessToken)
-      Cookie.set('refresh_token', refreshToken)
+      const { accessToken } = data?.data as AccessToken
+      setAccessToken(accessToken)
       return data
     })
 }

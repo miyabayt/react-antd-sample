@@ -1,9 +1,10 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 
 import NProgressIndicator from '@/components/atoms/NProgressIndicator'
 import routes, { RouteConfig } from '@/configs/routes'
 import LoginPage from '@/pages/login'
+import { setNavigate } from '@/utils/fetcher'
 
 function App() {
   const renderRoutes = (routes: RouteConfig[]) => {
@@ -20,8 +21,19 @@ function App() {
     })
   }
 
+  const RouterSetup = () => {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+      setNavigate(navigate)
+    }, [navigate])
+
+    return null
+  }
+
   return (
     <BrowserRouter>
+      <RouterSetup />
       <NProgressIndicator />
       <Routes>
         <Route path='/login' element={<LoginPage />} />

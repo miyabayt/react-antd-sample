@@ -1,8 +1,19 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import Cookie from 'js-cookie'
 
+import _ from 'lodash'
 import refresh from '@/services/auth/refresh'
-import { isTokenExpired } from '@/utils/jwt'
+
+let accessToken: string | null = null
+
+export const setAccessToken = (token: string | null): void => {
+  accessToken = token
+}
+
+export const getAccessToken = (): string | null => {
+  return accessToken
+}
+
+const memoRefreshToken = _.memoize(refresh)
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -12,33 +23,23 @@ const createAxiosInstance = () => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   })
 
   instance.interceptors.request.use(async (config) => {
-    const accessToken = Cookie.get('access_token')
-    const refreshToken = Cookie.get('refresh_token')
-    let newAccessToken = accessToken
-    if (accessToken && refreshToken && isTokenExpired(accessToken)) {
-      try {
-        console.log('try to refresh token...')
-        const { data, success } = await refresh(accessToken, refreshToken)
-        if (success) {
-          console.log('access token has been refreshed!')
-          newAccessToken = data.accessToken
-        }
-      } catch (e) {
-        console.log('failed to refresh token.')
-      }
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
     }
-
-    config.headers.Authorization = `Bearer ${newAccessToken}`
-
     return config
   })
 
   instance.interceptors.response.use(
     (response) => response,
-    (error) => {
+    async (error) => {
+      if (error?.response?.status === 401 && accessToken) {
+        await memoRefreshToken(accessToken)
+        return instance.request(error.config)
+      }
       return Promise.reject(error.response as AxiosResponse)
     },
   )

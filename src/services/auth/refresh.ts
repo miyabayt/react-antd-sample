@@ -1,33 +1,33 @@
 import axios from 'axios'
-import Cookie from 'js-cookie'
+import { setAccessToken } from '@/utils/axios'
 
 interface AccessToken {
   accessToken: string
-  refreshToken: string
 }
 
 const refresh = async (
   accessToken: string,
-  refreshToken: string,
-): Promise<{ data: AccessToken; success: boolean; message: string }> => {
+): Promise<{
+  data: AccessToken
+  success: boolean
+  message: string
+}> => {
   return await axios
     .request({
-      url: process.env.REACT_APP_API_BASE_URL + '/auth/refresh',
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+      url: '/auth/refresh',
       method: 'POST',
-      data: { accessToken, refreshToken },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
     .then(({ data }) => {
-      const { accessToken, refreshToken } = data?.data as AccessToken
-      Cookie.set('access_token', accessToken)
-      Cookie.set('refresh_token', refreshToken)
+      const { accessToken } = data?.data as AccessToken
+      setAccessToken(accessToken)
       return data
     })
     .catch((e) => {
-      Cookie.remove('access_token')
-      Cookie.remove('refresh_token')
+      setAccessToken(null)
       return Promise.reject(e)
     })
 }

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { css, ClassNames } from '@emotion/react'
 import { Avatar, Button, Col, Dropdown, Menu, Row, Space, Switch } from 'antd'
-import Cookie from 'js-cookie'
 import { AiOutlineUser } from 'react-icons/ai'
 
 import logout from '@/services/auth/logout'
@@ -13,15 +12,13 @@ import type { MenuProps } from 'antd'
 const UserProfile = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const accessToken = Cookie.get('access_token')
-  const refreshToken = Cookie.get('refresh_token')
   const { loginUser } = useAuthStore((state) => state)
 
   // TODO
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const handleLogout = async () => {
-    const { status } = await logout(accessToken, refreshToken)
+    const { status } = await logout()
 
     if (status < 500) {
       navigate('/login')
