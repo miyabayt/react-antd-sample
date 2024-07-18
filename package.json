@@ -6,9 +6,9 @@
     "start": "craco start",
     "dev": "npm run start",
     "build": "craco build",
-    "lint": "eslint --ext .ts,.tsx --ignore-path .gitignore './src'",
+    "lint": "eslint --ext .ts,.tsx --ignore-path .gitignore ./src",
     "lint:fix": "npm run lint -- --fix",
-    "format": "npm run lint:fix && prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json}' './*.{js,json}'",
+    "format": "npm run lint:fix && prettier --write --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx,json}'",
     "test": "craco test",
     "eject": "craco eject"
   },
