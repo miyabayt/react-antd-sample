@@ -38,9 +38,6 @@ const SearchForm = ({
       <Row>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Space size='middle'>
-            <Button type='primary' htmlType='submit' style={{ minWidth: 100 }}>
-              検索
-            </Button>
             <Button
               style={{ minWidth: 100 }}
               onClick={() => {
@@ -48,6 +45,9 @@ const SearchForm = ({
               }}
             >
               クリア
+            </Button>
+            <Button type='primary' htmlType='submit' style={{ minWidth: 100 }}>
+              検索
             </Button>
             {expandable && (
               <a
