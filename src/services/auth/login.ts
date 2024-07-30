@@ -1,14 +1,20 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { setAccessToken } from '@/utils/axios'
 
 interface AccessToken {
   accessToken: string
 }
 
+interface LoginResponse {
+  data: AccessToken
+  success: boolean
+  message: string
+}
+
 const login = async (
   username: string,
   password: string,
-): Promise<{ data: AccessToken; success: boolean; message: string }> => {
+): Promise<LoginResponse> => {
   return axios
     .request({
       baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -16,10 +22,10 @@ const login = async (
       method: 'POST',
       data: { username, password },
     })
-    .then(({ data }) => {
-      const { accessToken } = data?.data as AccessToken
+    .then(({ data: { data } }: AxiosResponse<LoginResponse>) => {
+      const { accessToken } = data
       setAccessToken(accessToken)
-      return data
+      return { data } as LoginResponse
     })
 }
 
