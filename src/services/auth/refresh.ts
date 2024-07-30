@@ -1,18 +1,18 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { setAccessToken } from '@/utils/axios'
 
 interface AccessToken {
   accessToken: string
 }
 
-const refresh = async (
-  accessToken: string,
-): Promise<{
+interface RefreshResponse {
   data: AccessToken
   success: boolean
   message: string
-}> => {
-  return await axios
+}
+
+const refresh = (accessToken: string): Promise<RefreshResponse> => {
+  return axios
     .request({
       baseURL: process.env.REACT_APP_API_BASE_URL,
       url: '/auth/refresh',
@@ -20,15 +20,16 @@ const refresh = async (
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      withCredentials: true,
     })
-    .then(({ data }) => {
-      const { accessToken } = data?.data as AccessToken
+    .then(({ data }: AxiosResponse<{ data: AccessToken }>) => {
+      const { accessToken } = data.data
       setAccessToken(accessToken)
-      return data
+      return data as RefreshResponse
     })
-    .catch((e) => {
+    .catch((error) => {
       setAccessToken(null)
-      return Promise.reject(e)
+      return Promise.reject(error)
     })
 }
 
