@@ -47,7 +47,7 @@ const LoginRequired = ({ children }: LoginRequiredProps) => {
         if (!valid) {
           console.log('checkAuth: invalid')
           setIsTokenValid(false)
-          setLoginUser(undefined)
+          setLoginUser(null)
           setRedirectTo(location.pathname)
           navigate('/login')
         }
@@ -65,7 +65,6 @@ const LoginRequired = ({ children }: LoginRequiredProps) => {
   }, [])
 
   if (!loginUser || !isTokenValid) {
-    console.log('loading...')
     return <LoadingSpinner loading={isLoading} />
   }
 

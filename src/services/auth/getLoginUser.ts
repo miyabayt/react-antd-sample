@@ -14,6 +14,14 @@ const getLoginUser = async (): Promise<MeResponse> => {
       method: 'GET',
     })
     .then(({ data }) => data)
+    .catch(
+      (error) =>
+        error.response?.data || {
+          data: null,
+          success: false,
+          message: 'unexpected error',
+        },
+    )
 }
 
 export default getLoginUser

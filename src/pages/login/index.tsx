@@ -39,7 +39,7 @@ const LoginPage = () => {
 
       // TODO toast?
     } finally {
-      setRedirectTo(undefined)
+      setRedirectTo(null)
       setIsLoading(false)
     }
   }
