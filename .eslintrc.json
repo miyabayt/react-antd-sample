@@ -15,10 +15,11 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@emotion"],
+  "plugins": ["react", "@emotion"],
   "rules": {
     "@typescript-eslint/no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "import/order": [
       "warn",
