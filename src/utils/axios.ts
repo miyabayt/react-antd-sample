@@ -27,19 +27,38 @@ const createAxiosInstance = () => {
   })
 
   instance.interceptors.request.use(async (config) => {
+    if (accessToken === null) {
+      const { data } = await memoRefreshToken()
+      accessToken = data.accessToken
+    }
+
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }
+
     return config
   })
 
   instance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      if (memoRefreshToken.cache.clear) {
+        memoRefreshToken.cache.clear()
+      }
+      return response
+    },
     async (error) => {
-      if (error?.response?.status === 401 && accessToken) {
-        await memoRefreshToken(accessToken)
+      if (error?.response?.status === 401) {
+        const { data, success } = await memoRefreshToken()
+        if (!success) {
+          accessToken = null
+          return Promise.reject(error.response as AxiosResponse)
+        }
+
+        accessToken = data.accessToken
+        error.config.headers.Authorization = `Bearer ${accessToken}`
         return instance.request(error.config)
       }
+
       return Promise.reject(error.response as AxiosResponse)
     },
   )

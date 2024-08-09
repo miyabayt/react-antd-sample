@@ -6,22 +6,22 @@ import encryptedSessionStorage from './encryptedSessionStorage'
 import type { LoginUser } from '@/types'
 
 interface AuthState {
-  loginUser: LoginUser | undefined
-  redirectTo: string | undefined
-  setLoginUser: (loginUser: LoginUser | undefined) => void
+  loginUser: LoginUser | null
+  redirectTo: string | null
+  setLoginUser: (loginUser: LoginUser | null) => void
   resetLoginUser: () => void
-  setRedirectTo: (redirectTo: string | undefined) => void
+  setRedirectTo: (redirectTo: string | null) => void
 }
 
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      loginUser: undefined,
-      redirectTo: undefined,
-      setLoginUser: (loginUser: LoginUser | undefined) =>
+      loginUser: null,
+      redirectTo: null,
+      setLoginUser: (loginUser: LoginUser | null) =>
         set((state) => ({ ...state, loginUser })),
-      resetLoginUser: () => set((state) => ({ ...state, undefined })),
-      setRedirectTo: (redirectTo: string | undefined) =>
+      resetLoginUser: () => set((state) => ({ ...state, loginUser: null })),
+      setRedirectTo: (redirectTo: string | null) =>
         set((state) => ({ ...state, redirectTo })),
     }),
     {
