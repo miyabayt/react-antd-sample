@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { App, Card, Form } from 'antd'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
-import StaffForm from '@/components/organisms/StaffForm'
+import StaffForm from '@/features/staffs/StaffForm'
 import createStaff from '@/services/staffs/createStaff'
-import { Staff } from '@/types'
+import type { Staff } from '@/types'
 
 const StaffNewPage = () => {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ const StaffNewPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='担当者マスタ登録' bordered>
+      <Card title='担当者マスタ登録'>
         <StaffForm
           form={form}
           onSave={handleSubmit}

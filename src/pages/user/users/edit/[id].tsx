@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { App, Card, Form } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
-import UserForm from '@/components/organisms/UserForm'
+import UserForm from '@/features/users/UserForm'
 import updateUser from '@/services/users/updateUser'
 import useUser from '@/services/users/useUser'
-import { User } from '@/types/user'
+import type { User } from '@/types/user'
 import dayjs from '@/utils/dayjs'
 
 const UserEditPage = () => {
@@ -34,7 +34,7 @@ const UserEditPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='顧客マスタ編集' loading={isLoading} bordered>
+      <Card title='顧客マスタ編集' loading={isLoading}>
         <UserForm
           form={form}
           onSave={handleSubmit}

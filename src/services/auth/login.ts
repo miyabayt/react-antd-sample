@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
-import { setAccessToken } from '@/utils/axios'
+import useAuthStore from '@/stores/useAuthStore'
+import axios, { type AxiosResponse } from 'axios'
 
 interface AccessToken {
   accessToken: string
@@ -15,6 +15,8 @@ const login = async (
   username: string,
   password: string,
 ): Promise<LoginResponse> => {
+  const { setAccessToken } = useAuthStore.getState()
+
   return axios
     .request({
       baseURL: process.env.REACT_APP_API_BASE_URL,

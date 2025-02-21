@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios'
-import { User } from '@/types/user'
+import type { User } from '@/types/user'
 import fetcher from '@/utils/fetcher'
+import type { AxiosRequestConfig } from 'axios'
 
 const deleteUser = async (
   id: string,

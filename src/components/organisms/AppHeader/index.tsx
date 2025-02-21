@@ -1,14 +1,12 @@
-import React, { createElement } from 'react'
-import { css, ClassNames } from '@emotion/react'
+import { ClassNames, css } from '@emotion/react'
 import { Col, Layout, Row } from 'antd'
+import { createElement } from 'react'
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from 'react-icons/ai'
 
-import { shallow } from 'zustand/shallow'
 import AppLogo from '@/components/molecules/AppLogo'
 import UserProfile from '@/components/molecules/UserProfile'
 import useSettingsStore from '@/stores/useSettingsStore'
-
-const { Header } = Layout
+import { useShallow } from 'zustand/shallow'
 
 interface AppHeaderProps {
   showTrigger?: boolean // 折りたたみアイコン表示有無（サイドバーが無い場合はfalseにする）
@@ -21,20 +19,16 @@ const AppHeader = ({
   showUserProfile = true,
   showAppLogo = false,
 }: AppHeaderProps) => {
-  const { collapsed, setCollapsed } = useSettingsStore(
-    (state) => ({
-      collapsed: state.collapsed,
-      setCollapsed: state.setCollapsed,
-    }),
-    shallow,
+  const { sidebarCollapsed, setSidebarCollapsed } = useSettingsStore(
+    useShallow((state) => state),
   )
 
   const handleClick = () => {
-    setCollapsed(!collapsed)
+    setSidebarCollapsed(!sidebarCollapsed)
   }
 
   return (
-    <Header css={styles.header}>
+    <Layout.Header css={styles.header}>
       <Row align='middle'>
         {showAppLogo && (
           <Col>
@@ -46,7 +40,7 @@ const AppHeader = ({
             <Col flex='100px'>
               {showTrigger &&
                 createElement(
-                  collapsed ? AiOutlineMenuUnfold : AiOutlineMenuFold,
+                  sidebarCollapsed ? AiOutlineMenuUnfold : AiOutlineMenuFold,
                   {
                     className: css(styles.trigger),
                     onClick: handleClick,
@@ -58,7 +52,7 @@ const AppHeader = ({
         <Col flex='auto' />
         <Col>{showUserProfile && <UserProfile />}</Col>
       </Row>
-    </Header>
+    </Layout.Header>
   )
 }
 

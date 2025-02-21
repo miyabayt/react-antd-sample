@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { EditOutlined } from '@ant-design/icons'
 import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import deleteHoliday from '@/services/holidays/deleteHoliday'
@@ -23,22 +23,21 @@ const HolidayDetailPage = () => {
 
   return (
     <LoginRequired>
-      <Card
-        title='祝日マスタ詳細'
-        loading={isLoading}
-        bordered
-        extra={
-          <Button
-            type='primary'
-            icon={<EditOutlined />}
-            ghost
-            onClick={() => navigate(`/system/holidays/edit/${id}`)}
-          >
-            編集
-          </Button>
-        }
-      >
-        {!isLoading && (
+      {!isLoading && holiday && (
+        <Card
+          title='祝日マスタ詳細'
+          loading={isLoading}
+          extra={
+            <Button
+              type='primary'
+              icon={<EditOutlined />}
+              ghost
+              onClick={() => navigate(`/system/holidays/edit/${id}`)}
+            >
+              編集
+            </Button>
+          }
+        >
           <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
             <Descriptions
               size='small'
@@ -94,8 +93,8 @@ const HolidayDetailPage = () => {
               </Space>
             </Row>
           </Space>
-        )}
-      </Card>
+        </Card>
+      )}
     </LoginRequired>
   )
 }

@@ -1,5 +1,22 @@
 import { css } from '@emotion/react'
 
+export const variables = {
+  colorPrimary: '#21428b',
+  colorError: '#dc362e',
+  backgroundColor: '#f5f5f5',
+  borderColor: '#a1a1a1',
+}
+
+export const components = {
+  AppHeader: {
+    borderColor: variables.borderColor,
+  },
+  AppSidebar: {
+    backgroundColor: variables.backgroundColor,
+    borderColor: variables.borderColor,
+  },
+}
+
 export const styles = {
   errorPage: css`
     h1 {
@@ -9,21 +26,9 @@ export const styles = {
 }
 
 export const globalStyles = css`
-  .ant-table-thead .ant-table-cell {
-    background-color: #f5f5f5 !important;
-  }
-
-  .ant-card-head {
-    min-height: 52px !important;
-    padding: 10px 24px !important;
-  }
-
-  .ant-card-head-title {
-    font-size: 14px;
-  }
-
-  .ant-descriptions-title {
-    font-size: 14px !important;
+  .ant-descriptions-item-label {
+    color: black !important;
+    font-weight: bold !important;
   }
 `
 

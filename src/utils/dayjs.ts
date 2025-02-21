@@ -1,6 +1,8 @@
+import dayjs, { extend, locale } from 'dayjs'
 import 'dayjs/locale/ja'
-import dayjs, { locale, extend } from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isLeapYear from 'dayjs/plugin/isLeapYear'
+import localeData from 'dayjs/plugin/localeData'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
@@ -10,6 +12,8 @@ extend(relativeTime)
 extend(utc)
 extend(timezone)
 extend(isLeapYear)
+extend(customParseFormat)
+extend(localeData)
 
 dayjs.tz.setDefault('Asia/Tokyo')
 

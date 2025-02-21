@@ -1,0 +1,8 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "exec": "cross-env PORT=8080 node ./src/server.js",
+  "events": {
+    "restart": "npm install"
+  }
+}

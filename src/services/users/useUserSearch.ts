@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios'
 import fetcher from '@/utils/fetcher'
 import useApiResource from '@/utils/useApiResource'
+import type { AxiosRequestConfig } from 'axios'
 
 interface SearchUserParams {
   fullName?: string | undefined
@@ -15,7 +15,7 @@ const useUserResource = (params: SearchUserParams) => {
     async (config?: AxiosRequestConfig) => {
       const page = (query.current || 1) - 1
       const pageSize = query.pageSize || 20
-      return fetcher(`/user/users/search?page=${page}&size=${pageSize}`, {
+      return fetcher(`/users/search?page=${page}&size=${pageSize}`, {
         ...config,
         method: 'POST',
         data: query,

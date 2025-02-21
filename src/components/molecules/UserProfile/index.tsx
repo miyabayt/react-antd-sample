@@ -1,18 +1,19 @@
+import { ClassNames, css } from '@emotion/react'
+import { Avatar, Dropdown, Menu, Space, Switch } from 'antd'
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { css, ClassNames } from '@emotion/react'
-import { Avatar, Button, Col, Dropdown, Menu, Row, Space, Switch } from 'antd'
-import { AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineDown, AiOutlineUser } from 'react-icons/ai'
+import { useLocation, useNavigate } from 'react-router'
 
 import logout from '@/services/auth/logout'
 import useAuthStore from '@/stores/useAuthStore'
 
 import type { MenuProps } from 'antd'
+import { useShallow } from 'zustand/shallow'
 
 const UserProfile = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { loginUser } = useAuthStore((state) => state)
+  const { loginUser } = useAuthStore(useShallow((state) => state))
 
   // TODO
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -71,12 +72,15 @@ const UserProfile = () => {
           overlayClassName={css(styles.dropdownMenu)}
           dropdownRender={dropdownRender}
           placement='bottomRight'
-          arrow={true}
-          trigger={['hover']}
-          //onOpenChange={}
-          //open={dropdownOpen} // TODO
+          trigger={['click']}
         >
-          <Avatar css={styles.avatar} icon={<AiOutlineUser />} />
+          <a onClick={(e) => e.preventDefault()}>
+            <Space>
+              <Avatar css={styles.avatar} icon={<AiOutlineUser />} />
+              {`${loginUser?.lastName} ${loginUser?.firstName}`}
+              <AiOutlineDown />
+            </Space>
+          </a>
         </Dropdown>
       )}
     </ClassNames>

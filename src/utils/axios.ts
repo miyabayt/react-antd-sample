@@ -1,24 +1,16 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios'
-
-import _ from 'lodash'
 import refresh from '@/services/auth/refresh'
-
-let accessToken: string | null = null
-
-export const setAccessToken = (token: string | null): void => {
-  accessToken = token
-}
-
-export const getAccessToken = (): string | null => {
-  return accessToken
-}
+import useAuthStore from '@/stores/useAuthStore'
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios'
+import _ from 'lodash'
 
 const memoRefreshToken = _.memoize(refresh)
 
 const createAxiosInstance = () => {
+  const { accessToken, setAccessToken } = useAuthStore.getState()
+
   const instance = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
-    timeout: parseInt(process.env.REACT_APP_AXIOS_TIMEOUT || '3000'),
+    timeout: Number.parseInt(process.env.REACT_APP_AXIOS_TIMEOUT || '3000'),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -29,7 +21,7 @@ const createAxiosInstance = () => {
   instance.interceptors.request.use(async (config) => {
     if (accessToken === null) {
       const { data } = await memoRefreshToken()
-      accessToken = data.accessToken
+      setAccessToken(data.accessToken)
     }
 
     if (accessToken) {
@@ -50,11 +42,11 @@ const createAxiosInstance = () => {
       if (error?.response?.status === 401) {
         const { data, success } = await memoRefreshToken()
         if (!success) {
-          accessToken = null
+          setAccessToken(null)
           return Promise.reject(error.response as AxiosResponse)
         }
 
-        accessToken = data.accessToken
+        setAccessToken(data.accessToken)
         error.config.headers.Authorization = `Bearer ${accessToken}`
         return instance.request(error.config)
       }

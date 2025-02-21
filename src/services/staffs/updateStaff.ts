@@ -1,4 +1,4 @@
-import { Staff } from '@/types/staff'
+import type { Staff } from '@/types/staff'
 import fetcher from '@/utils/fetcher'
 
 export type updateStaffParams = {

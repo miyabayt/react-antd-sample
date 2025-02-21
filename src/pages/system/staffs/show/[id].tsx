@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { EditOutlined } from '@ant-design/icons'
 import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import deleteStaff from '@/services/staffs/deleteStaff'
@@ -26,7 +26,6 @@ const StaffDetailPage = () => {
       <Card
         title='担当者マスタ詳細'
         loading={isLoading}
-        bordered
         extra={
           <Button
             type='primary'

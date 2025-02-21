@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import fetcher from '@/utils/fetcher'
 import useApiResource from '@/utils/useApiResource'
@@ -16,11 +16,14 @@ const useStaffSearch = (params?: SearchStaffParams) => {
     async (config?: AxiosRequestConfig) => {
       const page = (query.current || 1) - 1
       const pageSize = query.pageSize || 20
-      return fetcher(`/system/staffs/search?page=${page}&size=${pageSize}`, {
+      return fetcher(`/staff/search?page=${page}&size=${pageSize}`, {
         ...config,
         method: 'POST',
         data: query,
       }).then(({ data }) => data)
+    },
+    {
+      staleTime: 1000,
     },
   )
 }

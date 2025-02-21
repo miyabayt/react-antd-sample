@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import fetcher from '@/utils/fetcher'
 import useApiResource from '@/utils/useApiResource'

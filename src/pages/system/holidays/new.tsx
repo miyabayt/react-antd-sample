@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { App, Card, Form } from 'antd'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
-import HolidayForm from '@/components/organisms/HolidayForm'
+import HolidayForm from '@/features/holidays/HolidayForm'
 import createHoliday from '@/services/holidays/createHoliday'
-import { Holiday } from '@/types/holiday'
+import type { Holiday } from '@/types/holiday'
 
 const HolidayNewPage = () => {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ const HolidayNewPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='祝日マスタ登録' bordered>
+      <Card title='祝日マスタ登録'>
         <HolidayForm
           form={form}
           onSave={handleSubmit}
