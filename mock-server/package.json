@@ -1,0 +1,24 @@
+{
+  "name": "sample-mock-server",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --exitcrash"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@holiday-jp/holiday_jp": "^2.4.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "fast-csv": "^5.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "lodash": "^4.17.21",
+    "moment-timezone": "^0.5.45",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.7"
+  }
+}
