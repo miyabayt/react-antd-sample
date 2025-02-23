@@ -1,34 +1,26 @@
-import routes, { RouteConfig } from '@/configs/routes'
+import routes from '@/configs/routes'
+import type { RouteObject } from 'react-router'
 
-interface Route {
-  path: string
-  title: string
-  parentPath: string
-  menuCode: string
-}
-
-const flattenRoutes = (routes: RouteConfig[]): Route[] => {
-  return routes.reduce<Route[]>((flatten, route) => {
+const flattenRoutes = (routes: RouteObject[]): RouteObject[] => {
+  return routes.flatMap((route) => {
     if (route.children && route.children.length > 0) {
-      flatten = flatten.concat(flattenRoutes(route.children))
-    } else if (
-      route.path &&
-      route.title &&
-      route.parentPath &&
-      route.menuCode
-    ) {
-      flatten.push({
-        path: route.path,
-        title: route.title,
-        parentPath: route.parentPath,
-        menuCode: route.menuCode,
-      })
+      return flattenRoutes(route.children)
     }
-    return flatten
-  }, [])
+
+    if (
+      route.path &&
+      route.handle.title &&
+      route.handle.parentPath &&
+      route.handle.menuCode
+    ) {
+      return [route]
+    }
+
+    return []
+  })
 }
 
-const getRoutes = (): Route[] => {
+const getRoutes = (): RouteObject[] => {
   return flattenRoutes(routes)
 }
 

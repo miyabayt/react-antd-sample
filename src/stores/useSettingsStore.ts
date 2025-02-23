@@ -1,34 +1,89 @@
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
+import type { ColumnState, GridState } from 'ag-grid-community'
+import _ from 'lodash'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-interface SettingsState {
-  collapsed: boolean
-  openKeys: string[]
-  activeMenuKeys: string[]
-  setCollapsed: (collapsed: boolean) => void
-  setOpenKeys: (openKeys: string[]) => void
-  setActiveMenuKeys: (activeMenuKeys: string[]) => void
+interface GridStates {
+  [key: string]: GridState
 }
 
-const useSettingsStore = createWithEqualityFn<SettingsState>()(
+interface ColumnStates {
+  [key: string]: ColumnState[]
+}
+
+interface SettingsState {
+  sidebarCollapsed: boolean
+  menuOpenKeys: string[]
+  activeMenuKeys: string[]
+  gridStates: GridStates
+  columnStatesMap: ColumnStates
+  setSidebarCollapsed: (collapsed: boolean) => void
+  setMenuOpenKeys: (openKeys: string[]) => void
+  setActiveMenuKeys: (activeMenuKeys: string[]) => void
+  setGridState: (path: string, gridState: GridState) => void
+  setColumnStatesMap: (path: string, columnStates: ColumnState[]) => void
+}
+
+const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      collapsed: false,
-      openKeys: [''],
+      sidebarCollapsed: false,
+      menuOpenKeys: [''],
       activeMenuKeys: [''],
-      setCollapsed: (collapsed: boolean) =>
-        set((state) => ({ ...state, collapsed })),
-      setOpenKeys: (openKeys: string[]) =>
-        set((state) => ({ ...state, openKeys })),
+      gridStates: {},
+      columnStatesMap: {},
+      setSidebarCollapsed: (sidebarCollapsed: boolean) =>
+        set((state) => {
+          if (state.sidebarCollapsed === sidebarCollapsed) {
+            return state
+          }
+          return { sidebarCollapsed }
+        }),
+      setMenuOpenKeys: (menuOpenKeys: string[]) =>
+        set((state) => {
+          if (_.isEqual(state.menuOpenKeys, menuOpenKeys)) {
+            return state
+          }
+          return { menuOpenKeys }
+        }),
       setActiveMenuKeys: (activeMenuKeys: string[]) =>
-        set((state) => ({ ...state, activeMenuKeys })),
+        set((state) => {
+          if (_.isEqual(state.activeMenuKeys, activeMenuKeys)) {
+            return state
+          }
+          return { activeMenuKeys }
+        }),
+      setGridState: (path, gridState) => {
+        set((state) => {
+          if (_.isEqual(state.gridStates[path], gridState)) {
+            return state
+          }
+          return {
+            gridStates: {
+              ...state.gridStates,
+              [path]: gridState,
+            },
+          }
+        })
+      },
+      setColumnStatesMap: (path, columnStates) => {
+        set((state) => {
+          if (_.isEqual(state.columnStatesMap[path], columnStates)) {
+            return state
+          }
+          return {
+            columnStatesMap: {
+              ...state.columnStatesMap,
+              [path]: columnStates,
+            },
+          }
+        })
+      },
     }),
     {
       name: 'settings-storage',
-      storage: createJSONStorage(() => sessionStorage),
     },
   ),
-  Object.is, // Specify the default equality function, which can be shallow
 )
 
 export default useSettingsStore

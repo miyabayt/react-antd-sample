@@ -1,13 +1,11 @@
 import { css } from '@emotion/react'
 import { Layout } from 'antd'
 
-const { Footer } = Layout
-
 const AppFooter = () => {
   return (
-    <Footer css={styles.footer}>
+    <Layout.Footer css={styles.footer}>
       Copyright &copy; Sample Admin. All rights reserved.
-    </Footer>
+    </Layout.Footer>
   )
 }
 

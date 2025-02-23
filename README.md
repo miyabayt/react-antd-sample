@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# react-antd-sample
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Requirement
 
-## Available Scripts
+- Node Version Manager
+- Node.js v22.5.x
 
-In the project directory, you can run:
+```shell
+$ # node v22.5.1のインストール（初回のみ）
+$ nvm install v22.5.1
 
-### `npm start`
+$ # nodeバージョンの切り替え
+$ nvm use v22.5.1
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+$ # nodeバージョンの確認
+$ node -v
+v22.5.1
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## APIモックサーバーの起動
 
-### `npm test`
+```shell
+$ # モックサーバーの資材があるディレクトリに移動する
+$ cd ./mock-server
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+$ # モックサーバーの起動（Node版）
+$ yarn dev
 
-### `npm run build`
+$ # モックサーバーの起動（Docker版）
+$ docker compose up -d
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## アプリケーションの起動
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```shell
+$ # 初回および依存ライブラリが変わったときに実行
+$ yarn install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+$ # 開発環境の起動
+$ yarn dev
+```
 
-### `npm run eject`
+### テストユーザ
+- TBD
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## テストの実行
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```shell
+$ # 初回のみ
+$ npx playwright install --with-deps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+$ # テスト実行(8080ポートが利用されてないことを確認してから実行すること)
+$ yarn test:e2e
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+$ # 特定のテストだけ実行する場合
+$ yarn test:e2e --grep "TBD"
+```

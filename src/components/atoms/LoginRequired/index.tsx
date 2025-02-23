@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router'
 
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import getLoginUser from '@/services/auth/getLoginUser'
 import useAuthStore from '@/stores/useAuthStore'
+import { useShallow } from 'zustand/shallow'
 
 type LoginRequiredProps = {
   children: React.ReactNode
@@ -20,7 +21,7 @@ const LoginRequired = ({ children }: LoginRequiredProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isTokenValid, setIsTokenValid] = useState(false)
   const { loginUser, setLoginUser, setRedirectTo } = useAuthStore(
-    (state) => state,
+    useShallow((state) => state),
   )
 
   useEffect(() => {
@@ -61,7 +62,6 @@ const LoginRequired = ({ children }: LoginRequiredProps) => {
     }
 
     if (!isLoading) checkAuth()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!loginUser || !isTokenValid) {

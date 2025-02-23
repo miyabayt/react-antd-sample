@@ -1,10 +1,10 @@
-import { AxiosResponse } from 'axios'
-
 import useAuthStore from '@/stores/useAuthStore'
-import axiosInstance, { setAccessToken } from '@/utils/axios'
+import axiosInstance from '@/utils/axios'
+import type { AxiosResponse } from 'axios'
 
 const logout = async (): Promise<AxiosResponse> => {
-  const { resetLoginUser } = useAuthStore.getState()
+  const { setAccessToken, resetLoginUser } = useAuthStore.getState()
+
   const clearAuth = (response: AxiosResponse) => {
     setAccessToken(null)
     resetLoginUser()

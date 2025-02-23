@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { Button, Col, Form, FormInstance, Input, Row, Space } from 'antd'
+import { Button, Col, Form, type FormInstance, Input, Row, Space } from 'antd'
+import { useNavigate } from 'react-router'
 
-import { User } from '@/types/user'
+import type { User } from '@/types/user'
 
 interface UserFormProps {
   form: FormInstance

@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { css } from '@emotion/react'
-import { Form, Input, Row, Button } from 'antd'
+import { Button, Form, Input, Row } from 'antd'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import getLoginUser from '@/services/auth/getLoginUser'
 import login from '@/services/auth/login'
 import useAuthStore from '@/stores/useAuthStore'
+import { useShallow } from 'zustand/shallow'
 
 interface LoginForm {
   username: string
@@ -16,7 +17,7 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { redirectTo, setLoginUser, setRedirectTo } = useAuthStore(
-    (state) => state,
+    useShallow((state) => state),
   )
   const [form] = Form.useForm<LoginForm>()
 
@@ -37,7 +38,7 @@ const LoginPage = () => {
         }
       }
 
-      // TODO toast?
+      // TODO toast
     } finally {
       setRedirectTo(null)
       setIsLoading(false)

@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios'
 import fetcher from '@/utils/fetcher'
 import useApiResource from '@/utils/useApiResource'
+import type { AxiosRequestConfig } from 'axios'
 
 interface SearchUserParams {
   fullName?: string | undefined
@@ -20,6 +20,9 @@ const useUserResource = (params: SearchUserParams) => {
         method: 'POST',
         data: query,
       }).then(({ data }) => data)
+    },
+    {
+      staleTime: 1000,
     },
   )
 }

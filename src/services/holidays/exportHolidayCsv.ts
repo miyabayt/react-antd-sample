@@ -1,8 +1,9 @@
-import { AxiosResponse } from 'axios'
-import { saveAs } from 'file-saver'
-
+import { YYYYMMDDHHmmss } from '@/configs/app'
 import dayjs from '@/utils/dayjs' // タイムゾーン設定済み
 import fetcher from '@/utils/fetcher'
+
+import type { AxiosResponse } from 'axios'
+import { saveAs } from 'file-saver'
 
 interface SearchHolidayParams {
   holidayName?: string
@@ -17,8 +18,8 @@ const exportHolidayCsv = (params?: SearchHolidayParams) => {
       .format('YYYY-MM-DDTHH:mm:ss') // UTC→ローカル時間
   }
 
-  const filename = '祝日.csv'
-  return fetcher(`/system/holidays/export/${filename}`, {
+  const filename = `祝日_${dayjs().format(YYYYMMDDHHmmss)}.csv`
+  return fetcher('/system/holidays/export', {
     method: 'POST',
     data: query,
   }).then((response: AxiosResponse) => {

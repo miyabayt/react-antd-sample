@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios'
-import { Holiday } from '@/types/holiday'
+import type { Holiday } from '@/types/holiday'
 import fetcher from '@/utils/fetcher'
+import type { AxiosRequestConfig } from 'axios'
 
 const deleteHoliday = async (
   id: string,

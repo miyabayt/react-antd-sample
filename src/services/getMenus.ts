@@ -1,4 +1,4 @@
-import menus, { MenuItem } from '@/configs/menus'
+import menus, { type MenuItem } from '@/configs/menus'
 
 const getMenus = (): MenuItem[] => {
   return menus

@@ -1,4 +1,4 @@
-import { Holiday } from '@/types/holiday'
+import type { Holiday } from '@/types/holiday'
 import fetcher from '@/utils/fetcher'
 
 export type createHolidayParams = {
@@ -8,7 +8,7 @@ export type createHolidayParams = {
 const createHoliday = async ({
   holiday,
 }: createHolidayParams): Promise<Holiday> => {
-  return await fetcher(`/system/holiday`, {
+  return await fetcher('/system/holiday', {
     method: 'POST',
     data: holiday,
   }).then(({ data }) => data?.data)

@@ -3,9 +3,14 @@ export interface Pagination {
   pageSize: number
 }
 
+export interface PageInfo {
+  current?: number
+  pageSize?: number
+}
+
 export interface Sort {
-  sortField: string
-  sortOrder: string
+  sortField?: string | undefined
+  sortOrder?: string | undefined
 }
 
 export interface Pages {
@@ -13,7 +18,7 @@ export interface Pages {
 }
 
 export interface Sorts {
-  [key: string]: Sort
+  [key: string]: Sort | Sort[]
 }
 
 export interface PaginationState {

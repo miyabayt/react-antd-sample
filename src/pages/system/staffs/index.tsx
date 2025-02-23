@@ -1,26 +1,24 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
 import { DownloadOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Form, Input, Row, Space, Table } from 'antd'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import SearchForm from '@/components/molecules/SearchForm'
 import exportStaffCsv from '@/services/staffs/exportStaffCsv'
 import useStaffSearch from '@/services/staffs/useStaffSearch'
-import usePagination from '@/services/usePagination'
-import { Staff } from '@/types'
+import type { Staff } from '@/types'
+import usePagination from '@/utils/usePagination'
 
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
-import type { SorterResult } from 'antd/es/table/interface'
+import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 
 const StaffSearchPage = () => {
   const navigate = useNavigate()
   const [query, setQuery] = useState({})
   const [expanded, setExpanded] = useState(false)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const { pagination, sort, setPagination, setSort } = usePagination(
-    location.pathname,
-  )
+  const { pagination, sort, setPagination, setSort } = usePagination()
   const { isLoading, data } = useStaffSearch({
     ...query,
     ...pagination,
@@ -41,21 +39,23 @@ const StaffSearchPage = () => {
   }
 
   const handleSearch = (values: FormData) => {
-    const pagination = { current: 1 } // 1ページ目に戻す
-    setPagination(location.pathname, pagination)
+    setPagination({
+      current: 0, // 1ページ目に戻す
+      pageSize: pagination.pageSize,
+    })
     setQuery({ ...values, ...pagination })
   }
 
   const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<Staff>,
+    tablePagination: TablePaginationConfig,
+    _: Record<string, FilterValue | null>,
+    sorter: SorterResult<Staff> | SorterResult<Staff>[],
   ) => {
-    setPagination(location.pathname, pagination)
-    //setSort(router.pathname, {...sorter})
-    setQuery({
-      ...query,
-      ...pagination,
+    setPagination({
+      current: tablePagination.current,
+      pageSize: tablePagination.pageSize,
     })
+    setSort(sorter)
   }
 
   const columns: ColumnsType<Staff> = [
@@ -117,7 +117,6 @@ const StaffSearchPage = () => {
             新規登録
           </Button>
         }
-        bordered
       >
         <SearchForm
           form={form}

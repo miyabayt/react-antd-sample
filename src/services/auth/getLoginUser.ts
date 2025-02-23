@@ -1,4 +1,4 @@
-import { LoginUser } from '@/types'
+import type { LoginUser } from '@/types'
 import axiosInstance from '@/utils/axios'
 
 interface MeResponse {
@@ -16,7 +16,7 @@ const getLoginUser = async (): Promise<MeResponse> => {
     .then(({ data }) => data)
     .catch(
       (error) =>
-        error.response?.data || {
+        error?.response?.data || {
           data: null,
           success: false,
           message: 'unexpected error',

@@ -1,10 +1,10 @@
-import { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
-import { AiOutlineSetting, AiOutlineUser, AiOutlineHome } from 'react-icons/ai'
+import type { ReactElement } from 'react'
+import { AiOutlineHome, AiOutlineSetting, AiOutlineUser } from 'react-icons/ai'
+import { Link } from 'react-router'
 
 export type MenuItem = {
   key: string
-  label: ReactElement | string
+  label: React.ReactNode
   icon?: ReactElement
   children?: MenuItem[]
 }

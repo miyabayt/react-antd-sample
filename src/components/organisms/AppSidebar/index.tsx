@@ -1,28 +1,30 @@
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { css } from '@emotion/react'
-import { Layout, Menu } from 'antd'
+import { Grid, Layout, Menu } from 'antd'
+import type { MenuProps } from 'antd'
+import _ from 'lodash'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
+import { useShallow } from 'zustand/shallow'
 
 import AppLogo from '@/components/molecules/AppLogo'
-import { MenuItem } from '@/configs/menus'
+import type { MenuItem } from '@/configs/menus'
 import getMenus from '@/services/getMenus'
 import getRoutes from '@/services/getRoutes'
 import useSettingsStore from '@/stores/useSettingsStore'
 
-import type { MenuProps } from 'antd'
-
-const { Sider } = Layout
-
 const AppSidebar = () => {
   const location = useLocation()
+  const [defaultOpenKeys, setDefaultOpenKeys] = useState<string[]>([])
   const [sidebarItems, setSidebarItems] = useState<MenuItem[]>([])
   const {
-    collapsed,
-    openKeys,
+    sidebarCollapsed,
+    menuOpenKeys,
     activeMenuKeys,
-    setOpenKeys,
+    setMenuOpenKeys,
     setActiveMenuKeys,
-  } = useSettingsStore((state) => state)
+    setSidebarCollapsed,
+  } = useSettingsStore(useShallow((state) => state))
+  const screens = Grid.useBreakpoint()
 
   const isSubMenuKey = (menus: MenuItem[], targetKey: string): boolean => {
     return menus.some((m) => {
@@ -39,31 +41,43 @@ const AppSidebar = () => {
   useEffect(() => {
     const menus = getMenus()
     setSidebarItems(menus)
+    setDefaultOpenKeys(menus.map((m) => m.key))
 
     const routes = getRoutes()
     const route = routes.find((r) => r.path === location.pathname)
-    if (route) {
-      setOpenKeys([route.menuCode])
+    if (route?.path) {
+      setMenuOpenKeys(_.uniq([route.handle.menuCode, ...menuOpenKeys]))
 
       if (isSubMenuKey(menus, route.path)) {
         setActiveMenuKeys([route.path])
       } else {
-        setActiveMenuKeys([route.parentPath])
+        setActiveMenuKeys([route.handle.parentPath])
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (!sidebarCollapsed && screens.md === false) {
+        setSidebarCollapsed(true)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const onOpenChange: MenuProps['onOpenChange'] = (keys: string[]) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
-    setOpenKeys(latestOpenKey ? [latestOpenKey] : [''])
+    // const latestOpenKey = keys.find((key) => menuOpenKeys.indexOf(key) === -1)
+    // setMenuOpenKeys(latestOpenKey ? [latestOpenKey] : ['']) // ひとつだけ開く
+    setMenuOpenKeys(keys)
   }
 
   return (
-    <Sider
+    <Layout.Sider
       trigger={null}
       collapsible
-      collapsed={collapsed}
+      collapsed={sidebarCollapsed}
       width={250}
       collapsedWidth={50}
       css={styles.sider}
@@ -76,12 +90,13 @@ const AppSidebar = () => {
           theme='light'
           style={{ border: 0 }}
           selectedKeys={activeMenuKeys}
-          openKeys={openKeys}
+          openKeys={menuOpenKeys}
+          defaultOpenKeys={defaultOpenKeys}
           onOpenChange={onOpenChange}
           items={sidebarItems}
         />
       </div>
-    </Sider>
+    </Layout.Sider>
   )
 }
 

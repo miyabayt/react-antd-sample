@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { DownloadOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Form, Input, Row, Space, Table } from 'antd'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import SearchForm from '@/components/molecules/SearchForm'
-import usePagination from '@/services/usePagination'
 import exportUserCsv from '@/services/users/exportUserCsv'
 import useUserSearch from '@/services/users/useUserSearch'
-import { User } from '@/types/user'
+import type { User } from '@/types/user'
+import usePagination from '@/utils/usePagination'
 
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
-import type { SorterResult } from 'antd/es/table/interface'
+import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 
 const UserSearchPage = () => {
   const location = useLocation()
@@ -19,9 +19,7 @@ const UserSearchPage = () => {
   const [query, setQuery] = useState({})
   const [expanded, setExpanded] = useState(false)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const { pagination, sort, setPagination, setSort } = usePagination(
-    location.pathname,
-  )
+  const { pagination, sort, setPagination, setSort } = usePagination()
   const { isLoading, data } = useUserSearch({
     ...query,
     ...pagination,
@@ -42,21 +40,23 @@ const UserSearchPage = () => {
   }
 
   const handleSearch = (values: FormData) => {
-    const pagination = { current: 1 } // 1ページ目に戻す
-    setPagination(location.pathname, pagination)
+    setPagination({
+      current: 0, // 1ページ目に戻す
+      pageSize: pagination.pageSize,
+    })
     setQuery({ ...values, ...pagination })
   }
 
   const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<User>,
+    tablePagination: TablePaginationConfig,
+    _: Record<string, FilterValue | null>,
+    sorter: SorterResult<User> | SorterResult<User>[],
   ) => {
-    setPagination(location.pathname, pagination)
-    //setSort(router.pathname, {...sorter})
-    setQuery({
-      ...query,
-      ...pagination,
+    setPagination({
+      current: tablePagination.current,
+      pageSize: tablePagination.pageSize,
     })
+    setSort(sorter)
   }
 
   const columns: ColumnsType<User> = [
@@ -118,7 +118,6 @@ const UserSearchPage = () => {
             新規登録
           </Button>
         }
-        bordered
       >
         <SearchForm
           form={form}

@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { EditOutlined } from '@ant-design/icons'
 import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
 import deleteUser from '@/services/users/deleteUser'
@@ -26,7 +26,6 @@ const UserDetailPage = () => {
       <Card
         title='顧客マスタ詳細'
         loading={isLoading}
-        bordered
         extra={
           <Button
             type='primary'
@@ -40,11 +39,7 @@ const UserDetailPage = () => {
       >
         {!isLoading && (
           <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Descriptions
-              size='small'
-              labelStyle={{ width: 200, fontWeight: 600 }}
-              bordered
-            >
+            <Descriptions bordered>
               <Descriptions.Item label='ID' span={3}>
                 {user.id}
               </Descriptions.Item>

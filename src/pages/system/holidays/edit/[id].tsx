@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { App, Card, Form } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
-import HolidayForm from '@/components/organisms/HolidayForm'
+import HolidayForm from '@/features/holidays/HolidayForm'
 import updateHoliday from '@/services/holidays/updateHoliday'
 import useHoliday from '@/services/holidays/useHoliday'
-import { Holiday } from '@/types/holiday'
+import type { Holiday } from '@/types/holiday'
 import dayjs from '@/utils/dayjs'
 
 const HolidayEditPage = () => {
@@ -36,7 +36,7 @@ const HolidayEditPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='祝日マスタ編集' loading={isLoading} bordered>
+      <Card title='祝日マスタ編集' loading={isLoading}>
         <HolidayForm
           form={form}
           onSave={handleSubmit}

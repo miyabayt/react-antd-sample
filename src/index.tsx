@@ -1,15 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import 'antd/dist/reset.css'
 import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { App as AntdApp, ConfigProvider } from 'antd'
+import 'antd/dist/reset.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 
-import jaJP from 'antd/locale/ja_JP'
 import { antdTheme } from '@/configs/theme'
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'
+import jaJP from 'antd/locale/ja_JP'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+
+// ag-grid register all community features
+ModuleRegistry.registerModules([AllCommunityModule])
 
 const queryClient = new QueryClient({
   defaultOptions: {

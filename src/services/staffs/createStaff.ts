@@ -1,4 +1,4 @@
-import { Staff } from '@/types/staff'
+import type { Staff } from '@/types/staff'
 import fetcher from '@/utils/fetcher'
 
 export type createStaffParams = {
@@ -6,7 +6,7 @@ export type createStaffParams = {
 }
 
 const createStaff = async ({ staff }: createStaffParams): Promise<Staff> => {
-  return await fetcher(`/system/staff`, {
+  return await fetcher('/system/staff', {
     method: 'POST',
     data: staff,
   }).then(({ data }) => data?.data)
