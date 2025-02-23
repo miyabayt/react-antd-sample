@@ -1,7 +1,14 @@
-import { useNavigate } from 'react-router-dom'
-import { Button, DatePicker, Form, FormInstance, Input, Row, Space } from 'antd'
-
-import { Holiday } from '@/types/holiday'
+import type { Holiday } from '@/types/holiday'
+import {
+  Button,
+  DatePicker,
+  Form,
+  type FormInstance,
+  Input,
+  Row,
+  Space,
+} from 'antd'
+import { useNavigate } from 'react-router'
 
 interface HolidayFormProps {
   form: FormInstance

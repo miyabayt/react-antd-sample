@@ -1,12 +1,12 @@
+import { LoadingOutlined } from '@ant-design/icons'
 import { css, keyframes } from '@emotion/react'
 import { Spin } from 'antd'
-import { AiOutlineLoading } from 'react-icons/ai'
 
 interface LoadingSpinnerProps {
   loading: boolean
 }
 
-const antIcon = <AiOutlineLoading style={{ fontSize: 36 }} />
+const antIcon = <LoadingOutlined style={{ fontSize: 36 }} />
 
 const LoadingSpinner = (props: LoadingSpinnerProps) => {
   return (
@@ -32,7 +32,7 @@ const spinnerAnimation = keyframes`
 const styles = {
   spinner: css`
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;

@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios'
-import { Staff } from '@/types/staff'
+import type { Staff } from '@/types/staff'
 import fetcher from '@/utils/fetcher'
+import type { AxiosRequestConfig } from 'axios'
 
 const deleteStaff = async (
   id: string,

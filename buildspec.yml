@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - if [ -f /tmp/node_modules.tar ]; then tar -xf /tmp/node_modules.tar; fi
+      - npm install -g yarn
+  build:
+    commands:
+      - echo Build started on `date`
+      - yarn install && npx playwright install --with-deps
+      - CI=true PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-results/results.xml npm run test:e2e -- --reporter=junit
+      - NODE_ENV=production yarn build:${ENV_CODE}
+      - rm -rf dist && mv -f build dist
+      - npx s3-spa-upload dist ${FRONT_BUCKET_NAME} --cache-control-mapping cache-control.json --delete
+      - echo Build completed on `date`
+  post_build:
+    commands:
+      - rm -rf /tmp/node_modules.tar
+      - tar -cf /tmp/node_modules.tar node_modules
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist
+cache:
+  paths:
+    - /tmp/node_modules.tar

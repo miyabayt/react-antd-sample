@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { App, Card, Form } from 'antd'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
-import StaffForm from '@/components/organisms/StaffForm'
+import StaffForm from '@/features/staffs/StaffForm'
 import updateStaff from '@/services/staffs/updateStaff'
 import useStaff from '@/services/staffs/useStaff'
-import { Staff } from '@/types/staff'
+import type { Staff } from '@/types/staff'
 
 const StaffEditPage = () => {
   const { id } = useParams()
@@ -33,7 +33,7 @@ const StaffEditPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='担当者マスタ編集' loading={isLoading} bordered>
+      <Card title='担当者マスタ編集' loading={isLoading}>
         <StaffForm
           form={form}
           onSave={handleSubmit}

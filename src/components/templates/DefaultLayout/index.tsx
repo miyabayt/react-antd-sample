@@ -1,16 +1,13 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import { Global, css } from '@emotion/react'
-import { Layout } from 'antd'
-
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
 import AppBreadcrumb from '@/components/molecules/AppBreadcrumb'
 import AppFooter from '@/components/organisms/AppFooter'
 import AppHeader from '@/components/organisms/AppHeader'
 import AppSidebar from '@/components/organisms/AppSidebar'
 import { globalStyles } from '@/styles/globals'
-
-const { Content } = Layout
+import { Global, css } from '@emotion/react'
+import { Layout } from 'antd'
+import React from 'react'
+import { Outlet } from 'react-router'
 
 const DefaultLayout = () => {
   return (
@@ -20,12 +17,12 @@ const DefaultLayout = () => {
       <Layout>
         <AppHeader />
         <div css={styles.contentContainer}>
-          <Content css={styles.content}>
+          <Layout.Content css={styles.content}>
             <AppBreadcrumb />
             <React.Suspense fallback={<LoadingSpinner loading={true} />}>
               <Outlet />
             </React.Suspense>
-          </Content>
+          </Layout.Content>
         </div>
         <AppFooter />
       </Layout>

@@ -1,6 +1,7 @@
-import { AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios'
 import { saveAs } from 'file-saver'
 
+import { YYYYMMDDHHmmss } from '@/configs/app'
 import dayjs from '@/utils/dayjs' // タイムゾーン設定済み
 import fetcher from '@/utils/fetcher'
 
@@ -15,8 +16,8 @@ const exportUserCsv = (params?: SearchUserParams) => {
     query.userDate = dayjs(params.userDate).tz().format('YYYY-MM-DDTHH:mm:ss') // UTC→ローカル時間
   }
 
-  const filename = '顧客.csv'
-  return fetcher(`/user/users/export/${filename}`, {
+  const filename = `顧客_${dayjs().format(YYYYMMDDHHmmss)}.csv`
+  return fetcher('/user/users/export', {
     method: 'POST',
     data: query,
   }).then((response: AxiosResponse) => {

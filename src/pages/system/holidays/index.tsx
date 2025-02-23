@@ -1,5 +1,9 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import LoginRequired from '@/components/atoms/LoginRequired'
+import SearchForm from '@/components/molecules/SearchForm'
+import exportHolidayCsv from '@/services/holidays/exportHolidayCsv'
+import useHolidaySearch from '@/services/holidays/useHolidaySearch'
+import type { Holiday } from '@/types/holiday'
+import usePagination from '@/utils/usePagination'
 import { DownloadOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   Button,
@@ -12,25 +16,17 @@ import {
   Space,
   Table,
 } from 'antd'
-
-import LoginRequired from '@/components/atoms/LoginRequired'
-import SearchForm from '@/components/molecules/SearchForm'
-import exportHolidayCsv from '@/services/holidays/exportHolidayCsv'
-import useHolidaySearch from '@/services/holidays/useHolidaySearch'
-import usePagination from '@/services/usePagination'
-import { Holiday } from '@/types/holiday'
-
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
-import type { SorterResult } from 'antd/es/table/interface'
+import type { FilterValue, SorterResult } from 'antd/es/table/interface'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 
 const HolidaySearchPage = () => {
   const navigate = useNavigate()
   const [query, setQuery] = useState({})
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const { pagination, sort, setPagination, setSort } = usePagination(
-    location.pathname,
-  )
-  const { isLoading, data } = useHolidaySearch({
+  const { pagination, sort, setPagination, setSort } = usePagination()
+  const { isLoading, data, refetch } = useHolidaySearch({
     ...query,
     ...pagination,
   })
@@ -45,22 +41,28 @@ const HolidaySearchPage = () => {
     onChange: onSelectChange,
   }
 
+  useEffect(() => {
+    refetch()
+  }, [query, refetch])
+
   const handleSearch = (values: FormData) => {
-    const pagination = { current: 1 } // 1ページ目に戻す
-    setPagination(location.pathname, pagination)
+    setPagination({
+      current: 0, // 1ページ目に戻す
+      pageSize: pagination.pageSize,
+    })
     setQuery({ ...values, ...pagination })
   }
 
   const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<Holiday>,
+    tablePagination: TablePaginationConfig,
+    _: Record<string, FilterValue | null>,
+    sorter: SorterResult<Holiday> | SorterResult<Holiday>[],
   ) => {
-    setPagination(location.pathname, pagination)
-    //setSort(router.pathname, {...sorter})
-    setQuery({
-      ...query,
-      ...pagination,
+    setPagination({
+      current: tablePagination.current,
+      pageSize: tablePagination.pageSize,
     })
+    setSort(sorter)
   }
 
   const columns: ColumnsType<Holiday> = [
@@ -117,7 +119,6 @@ const HolidaySearchPage = () => {
             新規登録
           </Button>
         }
-        bordered
       >
         <SearchForm
           form={form}

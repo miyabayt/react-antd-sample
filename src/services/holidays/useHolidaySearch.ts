@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import dayjs from '@/utils/dayjs' // タイムゾーン設定済み
 import fetcher from '@/utils/fetcher'
@@ -29,6 +29,9 @@ const useHolidaySearch = (params?: SearchHolidayParams) => {
         method: 'POST',
         data: query,
       }).then(({ data }) => data)
+    },
+    {
+      staleTime: 1000,
     },
   )
 }

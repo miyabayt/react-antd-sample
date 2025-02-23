@@ -1,25 +1,37 @@
-import React, { useState } from 'react'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
-import { Button, Col, Form, FormInstance, Row, Space } from 'antd'
+import {
+  Button,
+  Col,
+  Form,
+  type FormInstance,
+  type FormProps,
+  Row,
+  Space,
+} from 'antd'
+import type React from 'react'
+import { useState } from 'react'
 
 interface SearchFormProps {
+  initialValues?: FormProps['initialValues']
   form: FormInstance
   name: string
   children: React.ReactNode
   expandable?: boolean // 詳細検索のトグル
   onFinish?: (values: FormData) => void
   onExpandChange?: (expanded: boolean) => void
+  disabled?: boolean
 }
 
 const SearchForm = ({
+  initialValues,
   form,
   name,
   children,
   expandable = false,
   onFinish,
   onExpandChange,
+  disabled = false,
 }: SearchFormProps) => {
-  // const { token } = theme.useToken()
   const [expanded, setExpanded] = useState(false)
 
   const formStyle = {
@@ -30,9 +42,11 @@ const SearchForm = ({
     <Form
       layout='horizontal'
       form={form}
+      initialValues={initialValues}
       name={name}
       style={formStyle}
       onFinish={onFinish}
+      disabled={disabled}
     >
       {children}
       <Row>
@@ -50,7 +64,8 @@ const SearchForm = ({
               検索
             </Button>
             {expandable && (
-              <a
+              <Button
+                type='link'
                 style={{ fontSize: 12 }}
                 onClick={() => {
                   setExpanded(!expanded)
@@ -58,7 +73,7 @@ const SearchForm = ({
                 }}
               >
                 {expanded ? <UpOutlined /> : <DownOutlined />} 詳細検索
-              </a>
+              </Button>
             )}
           </Space>
         </Col>

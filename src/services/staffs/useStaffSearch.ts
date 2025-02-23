@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import fetcher from '@/utils/fetcher'
 import useApiResource from '@/utils/useApiResource'
@@ -21,6 +21,9 @@ const useStaffSearch = (params?: SearchStaffParams) => {
         method: 'POST',
         data: query,
       }).then(({ data }) => data)
+    },
+    {
+      staleTime: 1000,
     },
   )
 }

@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom'
-import { css } from '@emotion/react'
-import { shallow } from 'zustand/shallow'
 import useSettingsStore from '@/stores/useSettingsStore'
+import { css } from '@emotion/react'
+import { useNavigate } from 'react-router'
 
 interface AppLogoProps {
   collapseLogo?: boolean // サイドバーが無い場合はfalseにする
@@ -9,18 +8,17 @@ interface AppLogoProps {
 
 const AppLogo = ({ collapseLogo = false }: AppLogoProps) => {
   const navigate = useNavigate()
-  const { collapsed } = useSettingsStore(
-    (state) => ({ collapsed: state.collapsed }),
-    shallow,
-  )
+  const sidebarCollapsed = useSettingsStore((state) => state.sidebarCollapsed)
 
   const handleClick = () => {
     navigate('/')
   }
 
   return (
-    <div css={styles.logo} onClick={handleClick}>
-      <strong>{collapseLogo && collapsed ? <>SA</> : <>Sample Admin</>}</strong>
+    <div css={styles.logo} onClick={handleClick} onKeyUp={handleClick}>
+      <strong>
+        {collapseLogo && sidebarCollapsed ? <>SA</> : <>Sample Admin</>}
+      </strong>
     </div>
   )
 }
