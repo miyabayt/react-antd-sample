@@ -11,7 +11,7 @@ export const setNavigate = (navi: NavigateFunction) => {
 const fetcher = async (
   url: string,
   config?: AxiosRequestConfig,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: _
 ): Promise<any> => {
   return axiosInstance.request({ ...config, url }).catch((e) => {
     if (e.response?.status === 401) {
