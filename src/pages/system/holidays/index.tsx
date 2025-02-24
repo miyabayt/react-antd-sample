@@ -1,21 +1,18 @@
+import AppButton from '@/components/atoms/AppButton'
+import AppDatePicker from '@/components/atoms/AppDatePicker'
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
+import AppFormItem from '@/components/molecules/AppFormItem'
 import SearchForm from '@/components/molecules/SearchForm'
+import { YYYY_MM_DD_JP } from '@/configs/app'
 import exportHolidayCsv from '@/services/holidays/exportHolidayCsv'
 import useHolidaySearch from '@/services/holidays/useHolidaySearch'
 import type { Holiday } from '@/types/holiday'
+import dayjs from '@/utils/dayjs'
 import usePagination from '@/utils/usePagination'
+
 import { DownloadOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Row,
-  Space,
-  Table,
-} from 'antd'
+import { Col, Form, Input, Row, Space, Table } from 'antd'
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 import { useEffect, useState } from 'react'
@@ -78,13 +75,15 @@ const HolidaySearchPage = () => {
     },
     {
       title: '日付',
-      dataIndex: 'holidayDate',
+      render: (_, record) => (
+        <span>{dayjs(record.holidayDate).format(YYYY_MM_DD_JP)}</span>
+      ),
     },
     {
       title: 'アクション',
       render: (_, record) => (
         <Space size='middle'>
-          <Button
+          <AppButton
             type='link'
             icon={<EditOutlined />}
             onClick={() => {
@@ -104,20 +103,19 @@ const HolidaySearchPage = () => {
 
   return (
     <LoginRequired>
-      <Card
+      <AppCard
         title='祝日マスタ検索'
         extra={
-          <Button
-            type='primary'
+          <AppButton
+            type='secondary'
             icon={<PlusOutlined />}
             style={{ minWidth: 100 }}
             onClick={() => {
               navigate('/system/holidays/new')
             }}
-            ghost
           >
             新規登録
-          </Button>
+          </AppButton>
         }
       >
         <SearchForm
@@ -127,21 +125,21 @@ const HolidaySearchPage = () => {
         >
           <Row gutter={24}>
             <Col span={8}>
-              <Form.Item name='holidayName' label='名称'>
+              <AppFormItem name='holidayName' label='名称'>
                 <Input />
-              </Form.Item>
+              </AppFormItem>
             </Col>
             <Col span={8}>
-              <Form.Item name='holidayDate' label='日付'>
-                <DatePicker style={{ minWidth: 180 }} />
-              </Form.Item>
+              <AppFormItem name='holidayDate' label='日付'>
+                <AppDatePicker style={{ minWidth: 180 }} />
+              </AppFormItem>
             </Col>
           </Row>
         </SearchForm>
         <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
           <Row align='middle' justify='end'>
             <Col>
-              <Button
+              <AppButton
                 type='primary'
                 icon={<DownloadOutlined />}
                 style={{ minWidth: 100 }}
@@ -149,7 +147,7 @@ const HolidaySearchPage = () => {
                 onClick={handleCsvExport}
               >
                 CSVダウンロード
-              </Button>
+              </AppButton>
             </Col>
           </Row>
           <Table
@@ -173,7 +171,7 @@ const HolidaySearchPage = () => {
             size='small'
           />
         </Space>
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

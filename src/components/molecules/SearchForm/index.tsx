@@ -1,3 +1,4 @@
+import AppButton from '@/components/atoms/AppButton'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import {
   Button,
@@ -52,14 +53,15 @@ const SearchForm = ({
       <Row>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Space size='middle'>
-            <Button
+            <AppButton
+              type='secondary'
               style={{ minWidth: 100 }}
               onClick={() => {
                 form.resetFields()
               }}
             >
               クリア
-            </Button>
+            </AppButton>
             <Button type='primary' htmlType='submit' style={{ minWidth: 100 }}>
               検索
             </Button>

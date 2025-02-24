@@ -1,11 +1,16 @@
 import { EditOutlined } from '@ant-design/icons'
-import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { App, Descriptions, Modal, Row, Space } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
+import AppDescriptions from '@/components/molecules/AppDescriptions'
+import { YYYY_MM_DD_HH_mm_ss } from '@/configs/app'
 import deleteUser from '@/services/users/deleteUser'
 import useUser from '@/services/users/useUser'
+import dayjs from '@/utils/dayjs'
 
 const UserDetailPage = () => {
   const { id } = useParams()
@@ -23,23 +28,23 @@ const UserDetailPage = () => {
 
   return (
     <LoginRequired>
-      <Card
+      <AppCard
         title='顧客マスタ詳細'
         loading={isLoading}
         extra={
-          <Button
-            type='primary'
+          <AppButton
+            type='secondary'
             icon={<EditOutlined />}
-            ghost
             onClick={() => navigate(`/user/users/edit/${id}`)}
+            narrow
           >
             編集
-          </Button>
+          </AppButton>
         }
       >
         {!isLoading && (
           <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Descriptions bordered>
+            <AppDescriptions>
               <Descriptions.Item label='ID' span={3}>
                 {user.id}
               </Descriptions.Item>
@@ -59,30 +64,28 @@ const UserDetailPage = () => {
                 {user.address}
               </Descriptions.Item>
               <Descriptions.Item label='登録日時' span={3}>
-                {user.createdAt}
+                {dayjs(user.createdAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
               <Descriptions.Item label='更新日時' span={3}>
-                {user.updatedAt}
+                {dayjs(user.updatedAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
-            </Descriptions>
+            </AppDescriptions>
             <Row justify='center'>
               <Space direction='horizontal' size='middle'>
-                <Button
-                  type='primary'
+                <AppButton
+                  type='secondary'
                   style={{ minWidth: 100 }}
                   onClick={() => navigate('/user/users')}
-                  ghost
                 >
                   戻る
-                </Button>
-                <Button
-                  type='primary'
+                </AppButton>
+                <AppButton
+                  type='danger'
                   style={{ minWidth: 100 }}
                   onClick={() => setShowConfirm(true)}
-                  danger
                 >
                   削除
-                </Button>
+                </AppButton>
                 <Modal
                   title='確認'
                   open={showConfirm}
@@ -99,7 +102,7 @@ const UserDetailPage = () => {
             </Row>
           </Space>
         )}
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

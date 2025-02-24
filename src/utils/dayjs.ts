@@ -1,4 +1,4 @@
-import dayjs, { extend, locale } from 'dayjs'
+import dayjs, { type Dayjs, extend, locale } from 'dayjs'
 import 'dayjs/locale/ja'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isLeapYear from 'dayjs/plugin/isLeapYear'
@@ -18,3 +18,7 @@ extend(localeData)
 dayjs.tz.setDefault('Asia/Tokyo')
 
 export default dayjs
+
+export const toDayjs = (dates: string[]): Dayjs[] => {
+  return dates.map((date) => dayjs(date))
+}

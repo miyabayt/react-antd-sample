@@ -1,11 +1,16 @@
 import { EditOutlined } from '@ant-design/icons'
-import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { App, Descriptions, Modal, Row, Space } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
+import AppDescriptions from '@/components/molecules/AppDescriptions'
+import { YYYY_MM_DD_HH_mm_ss } from '@/configs/app'
 import deleteStaff from '@/services/staffs/deleteStaff'
 import useStaff from '@/services/staffs/useStaff'
+import dayjs from '@/utils/dayjs'
 
 const StaffDetailPage = () => {
   const { id } = useParams()
@@ -24,22 +29,22 @@ const StaffDetailPage = () => {
   return (
     <LoginRequired>
       {!isLoading && staff && (
-        <Card
+        <AppCard
           title='担当者マスタ詳細'
           loading={isLoading}
           extra={
-            <Button
-              type='primary'
+            <AppButton
+              type='secondary'
               icon={<EditOutlined />}
-              ghost
               onClick={() => navigate(`/system/staffs/edit/${id}`)}
+              narrow
             >
               編集
-            </Button>
+            </AppButton>
           }
         >
           <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Descriptions bordered>
+            <AppDescriptions>
               <Descriptions.Item label='ID' span={3}>
                 {staff.id}
               </Descriptions.Item>
@@ -53,30 +58,28 @@ const StaffDetailPage = () => {
                 {staff.tel}
               </Descriptions.Item>
               <Descriptions.Item label='登録日時' span={3}>
-                {staff.createdAt}
+                {dayjs(staff.createdAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
               <Descriptions.Item label='更新日時' span={3}>
-                {staff.updatedAt}
+                {dayjs(staff.updatedAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
-            </Descriptions>
+            </AppDescriptions>
             <Row justify='center'>
               <Space direction='horizontal' size='middle'>
-                <Button
-                  type='primary'
+                <AppButton
+                  type='secondary'
                   style={{ minWidth: 100 }}
                   onClick={() => navigate('/system/staffs')}
-                  ghost
                 >
                   戻る
-                </Button>
-                <Button
-                  type='primary'
+                </AppButton>
+                <AppButton
+                  type='danger'
                   style={{ minWidth: 100 }}
                   onClick={() => setShowConfirm(true)}
-                  danger
                 >
                   削除
-                </Button>
+                </AppButton>
                 <Modal
                   title='確認'
                   open={showConfirm}
@@ -92,7 +95,7 @@ const StaffDetailPage = () => {
               </Space>
             </Row>
           </Space>
-        </Card>
+        </AppCard>
       )}
     </LoginRequired>
   )
