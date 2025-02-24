@@ -1,8 +1,11 @@
 import { css } from '@emotion/react'
-import { Button, Form, Input, Row } from 'antd'
+import { Form, Input, Row } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
+import AppForm from '@/components/molecules/AppForm'
+import AppFormItem from '@/components/molecules/AppFormItem'
 import getLoginUser from '@/services/auth/getLoginUser'
 import login from '@/services/auth/login'
 import useAuthStore from '@/stores/useAuthStore'
@@ -51,25 +54,15 @@ const LoginPage = () => {
         <div css={styles.logo}>
           <strong>Sample Admin</strong>
         </div>
-        <Form form={form} onFinish={handleSubmit} layout='vertical'>
-          <Form.Item
-            label='ログインID'
-            required
-            name='username'
-            rules={[{ required: true, message: 'Please input your Username!' }]}
-          >
+        <AppForm form={form} onFinish={handleSubmit} layout='vertical'>
+          <AppFormItem label='ログインID' name='username' required>
             <Input size='large' />
-          </Form.Item>
-          <Form.Item
-            label='パスワード'
-            required
-            name='password'
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
+          </AppFormItem>
+          <AppFormItem label='パスワード' name='password' required>
             <Input type='password' size='large' />
-          </Form.Item>
+          </AppFormItem>
           <Row style={{ marginTop: '48px' }}>
-            <Button
+            <AppButton
               type='primary'
               htmlType='submit'
               loading={isLoading}
@@ -77,9 +70,9 @@ const LoginPage = () => {
               size='large'
             >
               ログイン
-            </Button>
+            </AppButton>
           </Row>
-        </Form>
+        </AppForm>
       </div>
     </>
   )

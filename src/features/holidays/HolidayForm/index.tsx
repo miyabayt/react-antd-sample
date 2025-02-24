@@ -1,13 +1,9 @@
+import AppButton from '@/components/atoms/AppButton'
+import AppDatePicker from '@/components/atoms/AppDatePicker'
+import AppForm from '@/components/molecules/AppForm'
+import AppFormItem from '@/components/molecules/AppFormItem'
 import type { Holiday } from '@/types/holiday'
-import {
-  Button,
-  DatePicker,
-  Form,
-  type FormInstance,
-  Input,
-  Row,
-  Space,
-} from 'antd'
+import { type FormInstance, Input, Row, Space } from 'antd'
 import { useNavigate } from 'react-router'
 
 interface HolidayFormProps {
@@ -26,38 +22,37 @@ const HolidayForm = ({
   const navigate = useNavigate()
 
   return (
-    <Form form={form} onFinish={onSave} layout='vertical'>
+    <AppForm form={form} onFinish={onSave} layout='vertical'>
       <Row>
-        <Form.Item name='holidayName' label='名称' rules={[{ required: true }]}>
+        <AppFormItem name='holidayName' label='名称' required>
           <Input />
-        </Form.Item>
+        </AppFormItem>
       </Row>
       <Row>
-        <Form.Item name='holidayDate' label='日付' rules={[{ required: true }]}>
-          <DatePicker style={{ minWidth: 180 }} />
-        </Form.Item>
+        <AppFormItem name='holidayDate' label='日付' required>
+          <AppDatePicker style={{ minWidth: 180 }} />
+        </AppFormItem>
       </Row>
       <Row justify='center'>
         <Space direction='horizontal' size='middle'>
-          <Button
-            type='primary'
+          <AppButton
+            type='secondary'
             style={{ minWidth: 100 }}
             onClick={() => navigate('/system/holidays')}
-            ghost
           >
             戻る
-          </Button>
-          <Button
+          </AppButton>
+          <AppButton
             type='primary'
             htmlType='submit'
             style={{ minWidth: 100 }}
             loading={loading}
           >
             {buttonText}
-          </Button>
+          </AppButton>
         </Space>
       </Row>
-    </Form>
+    </AppForm>
   )
 }
 

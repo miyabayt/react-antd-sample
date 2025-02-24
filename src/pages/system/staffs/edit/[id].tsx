@@ -1,8 +1,9 @@
-import { App, Card, Form } from 'antd'
+import { App, Form } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
 import StaffForm from '@/features/staffs/StaffForm'
 import updateStaff from '@/services/staffs/updateStaff'
 import useStaff from '@/services/staffs/useStaff'
@@ -33,14 +34,14 @@ const StaffEditPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='担当者マスタ編集' loading={isLoading}>
+      <AppCard title='担当者マスタ編集' loading={isLoading}>
         <StaffForm
           form={form}
           onSave={handleSubmit}
           buttonText='保存'
           loading={isSaving}
         />
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

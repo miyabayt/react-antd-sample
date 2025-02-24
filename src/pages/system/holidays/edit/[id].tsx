@@ -1,8 +1,9 @@
-import { App, Card, Form } from 'antd'
+import { App, Form } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
 import HolidayForm from '@/features/holidays/HolidayForm'
 import updateHoliday from '@/services/holidays/updateHoliday'
 import useHoliday from '@/services/holidays/useHoliday'
@@ -36,14 +37,14 @@ const HolidayEditPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='祝日マスタ編集' loading={isLoading}>
+      <AppCard title='祝日マスタ編集' loading={isLoading}>
         <HolidayForm
           form={form}
           onSave={handleSubmit}
           buttonText='保存'
           loading={isSaving}
         />
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

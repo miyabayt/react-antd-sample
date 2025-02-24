@@ -1,11 +1,12 @@
+import { App, Form } from 'antd'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
 import UserForm from '@/features/users/UserForm'
 import createUser from '@/services/users/createUser'
 import type { User } from '@/types/user'
-import { App, Card, Form } from 'antd'
-import { useNavigate } from 'react-router'
 
 const UserNewPage = () => {
   const navigate = useNavigate()
@@ -26,14 +27,14 @@ const UserNewPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='顧客マスタ登録'>
+      <AppCard title='顧客マスタ登録'>
         <UserForm
           form={form}
           onSave={handleSubmit}
           buttonText='登録'
           loading={isLoading}
         />
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

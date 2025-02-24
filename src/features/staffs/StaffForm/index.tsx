@@ -1,6 +1,9 @@
-import { Button, Col, Form, type FormInstance, Input, Row, Space } from 'antd'
+import { Button, Col, type FormInstance, Input, Row, Space } from 'antd'
 import { useNavigate } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
+import AppForm from '@/components/molecules/AppForm'
+import AppFormItem from '@/components/molecules/AppFormItem'
 import type { Staff } from '@/types/staff'
 
 interface StaffFormProps {
@@ -14,31 +17,31 @@ const StaffForm = ({ form, onSave, loading, buttonText }: StaffFormProps) => {
   const navigate = useNavigate()
 
   return (
-    <Form form={form} onFinish={onSave} layout='vertical'>
+    <AppForm form={form} onFinish={onSave} layout='vertical'>
       <Row gutter={24}>
         <Col>
-          <Form.Item name='lastName' label='姓' rules={[{ required: true }]}>
+          <AppFormItem name='lastName' label='姓' required>
             <Input />
-          </Form.Item>
+          </AppFormItem>
         </Col>
         <Col>
-          <Form.Item name='firstName' label='名' rules={[{ required: true }]}>
+          <AppFormItem name='firstName' label='名' required>
             <Input />
-          </Form.Item>
+          </AppFormItem>
         </Col>
       </Row>
       <Row>
-        <Form.Item
+        <AppFormItem
           name='password'
           label='パスワード'
           style={{ minWidth: 380 }}
-          rules={[{ required: true }]}
+          required
         >
           <Input.Password />
-        </Form.Item>
+        </AppFormItem>
       </Row>
       <Row>
-        <Form.Item
+        <AppFormItem
           name='passwordConfirm'
           label='確認用パスワード'
           style={{ minWidth: 380 }}
@@ -56,33 +59,32 @@ const StaffForm = ({ form, onSave, loading, buttonText }: StaffFormProps) => {
           ]}
         >
           <Input.Password />
-        </Form.Item>
+        </AppFormItem>
       </Row>
       <Row>
-        <Form.Item
+        <AppFormItem
           name='email'
           label='メールアドレス'
           style={{ minWidth: 380 }}
-          rules={[{ required: true }]}
+          required
         >
           <Input />
-        </Form.Item>
+        </AppFormItem>
       </Row>
       <Row>
-        <Form.Item name='tel' label='電話番号'>
+        <AppFormItem name='tel' label='電話番号'>
           <Input />
-        </Form.Item>
+        </AppFormItem>
       </Row>
       <Row justify='center'>
         <Space direction='horizontal' size='middle'>
-          <Button
-            type='primary'
+          <AppButton
+            type='secondary'
             style={{ minWidth: 100 }}
             onClick={() => navigate('/system/staffs')}
-            ghost
           >
             戻る
-          </Button>
+          </AppButton>
           <Button
             type='primary'
             htmlType='submit'
@@ -93,7 +95,7 @@ const StaffForm = ({ form, onSave, loading, buttonText }: StaffFormProps) => {
           </Button>
         </Space>
       </Row>
-    </Form>
+    </AppForm>
   )
 }
 

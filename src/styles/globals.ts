@@ -1,10 +1,10 @@
 import { css } from '@emotion/react'
 
 export const variables = {
-  colorPrimary: '#21428b',
-  colorError: '#dc362e',
+  colorPrimary: '#1677ff',
+  colorError: '#ff4d4f',
   backgroundColor: '#f5f5f5',
-  borderColor: '#d0d7de',
+  borderColor: '#d9d9d9',
 }
 
 export const components = {

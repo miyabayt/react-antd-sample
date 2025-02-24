@@ -1,8 +1,9 @@
-import { App, Card, Form } from 'antd'
+import { App, Form } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
 import StaffForm from '@/features/staffs/StaffForm'
 import createStaff from '@/services/staffs/createStaff'
 import type { Staff } from '@/types'
@@ -26,14 +27,14 @@ const StaffNewPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='担当者マスタ登録'>
+      <AppCard title='担当者マスタ登録'>
         <StaffForm
           form={form}
           onSave={handleSubmit}
           buttonText='登録'
           loading={isLoading}
         />
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

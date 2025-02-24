@@ -1,17 +1,19 @@
 import { DownloadOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Row, Space, Table } from 'antd'
+import { Col, Form, Input, Row, Space, Table } from 'antd'
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
+import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
+import AppFormItem from '@/components/molecules/AppFormItem'
 import SearchForm from '@/components/molecules/SearchForm'
 import exportUserCsv from '@/services/users/exportUserCsv'
 import useUserSearch from '@/services/users/useUserSearch'
 import type { User } from '@/types/user'
 import usePagination from '@/utils/usePagination'
-
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
-import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 
 const UserSearchPage = () => {
   const location = useLocation()
@@ -83,7 +85,7 @@ const UserSearchPage = () => {
       title: 'アクション',
       render: (_, record) => (
         <Space size='middle'>
-          <Button
+          <AppButton
             type='link'
             icon={<EditOutlined />}
             onClick={() => {
@@ -103,20 +105,19 @@ const UserSearchPage = () => {
 
   return (
     <LoginRequired>
-      <Card
+      <AppCard
         title='顧客マスタ検索'
         extra={
-          <Button
-            type='primary'
+          <AppButton
+            type='secondary'
             icon={<PlusOutlined />}
             style={{ minWidth: 100 }}
             onClick={() => {
               navigate('/user/users/new')
             }}
-            ghost
           >
             新規登録
-          </Button>
+          </AppButton>
         }
       >
         <SearchForm
@@ -128,22 +129,22 @@ const UserSearchPage = () => {
         >
           <Row gutter={24}>
             <Col span={8}>
-              <Form.Item name='fullName' label='氏名'>
+              <AppFormItem name='fullName' label='氏名'>
                 <Input />
-              </Form.Item>
+              </AppFormItem>
             </Col>
             <Col span={8}>
-              <Form.Item name='email' label='メールアドレス'>
+              <AppFormItem name='email' label='メールアドレス'>
                 <Input />
-              </Form.Item>
+              </AppFormItem>
             </Col>
           </Row>
           {expanded && (
             <Row gutter={24}>
               <Col span={8}>
-                <Form.Item name='tel' label='電話番号'>
+                <AppFormItem name='tel' label='電話番号'>
                   <Input />
-                </Form.Item>
+                </AppFormItem>
               </Col>
             </Row>
           )}
@@ -151,7 +152,7 @@ const UserSearchPage = () => {
         <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
           <Row align='middle' justify='end'>
             <Col>
-              <Button
+              <AppButton
                 type='primary'
                 icon={<DownloadOutlined />}
                 style={{ minWidth: 100 }}
@@ -159,7 +160,7 @@ const UserSearchPage = () => {
                 onClick={handleCsvExport}
               >
                 CSVダウンロード
-              </Button>
+              </AppButton>
             </Col>
           </Row>
           <Table
@@ -183,7 +184,7 @@ const UserSearchPage = () => {
             size='small'
           />
         </Space>
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

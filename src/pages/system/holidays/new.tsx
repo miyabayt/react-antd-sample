@@ -1,8 +1,9 @@
-import { App, Card, Form } from 'antd'
+import { App, Form } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
 import HolidayForm from '@/features/holidays/HolidayForm'
 import createHoliday from '@/services/holidays/createHoliday'
 import type { Holiday } from '@/types/holiday'
@@ -26,14 +27,14 @@ const HolidayNewPage = () => {
 
   return (
     <LoginRequired>
-      <Card title='祝日マスタ登録'>
+      <AppCard title='祝日マスタ登録'>
         <HolidayForm
           form={form}
           onSave={handleSubmit}
           buttonText='登録'
           loading={isLoading}
         />
-      </Card>
+      </AppCard>
     </LoginRequired>
   )
 }

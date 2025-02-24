@@ -1,11 +1,16 @@
 import { EditOutlined } from '@ant-design/icons'
-import { App, Button, Card, Descriptions, Modal, Row, Space } from 'antd'
+import { App, Descriptions, Flex, Modal, Row, Space } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import AppButton from '@/components/atoms/AppButton'
 import LoginRequired from '@/components/atoms/LoginRequired'
+import AppCard from '@/components/molecules/AppCard'
+import AppDescriptions from '@/components/molecules/AppDescriptions'
+import { YYYY_MM_DD_HH_mm_ss, YYYY_MM_DD_JP } from '@/configs/app'
 import deleteHoliday from '@/services/holidays/deleteHoliday'
 import useHoliday from '@/services/holidays/useHoliday'
+import dayjs from '@/utils/dayjs'
 
 const HolidayDetailPage = () => {
   const { id } = useParams()
@@ -24,22 +29,22 @@ const HolidayDetailPage = () => {
   return (
     <LoginRequired>
       {!isLoading && holiday && (
-        <Card
+        <AppCard
           title='祝日マスタ詳細'
           loading={isLoading}
           extra={
-            <Button
-              type='primary'
+            <AppButton
+              type='secondary'
               icon={<EditOutlined />}
-              ghost
               onClick={() => navigate(`/system/holidays/edit/${id}`)}
+              narrow
             >
               編集
-            </Button>
+            </AppButton>
           }
         >
-          <Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-            <Descriptions bordered>
+          <Flex gap={16} vertical>
+            <AppDescriptions>
               <Descriptions.Item label='ID' span={3}>
                 {holiday.id}
               </Descriptions.Item>
@@ -47,33 +52,31 @@ const HolidayDetailPage = () => {
                 {holiday.holidayName}
               </Descriptions.Item>
               <Descriptions.Item label='日付' span={3}>
-                {holiday.holidayDate}
+                {dayjs(holiday.holidayDate).format(YYYY_MM_DD_JP)}
               </Descriptions.Item>
               <Descriptions.Item label='登録日時' span={3}>
-                {holiday.createdAt}
+                {dayjs(holiday.createdAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
               <Descriptions.Item label='更新日時' span={3}>
-                {holiday.updatedAt}
+                {dayjs(holiday.updatedAt).format(YYYY_MM_DD_HH_mm_ss)}
               </Descriptions.Item>
-            </Descriptions>
+            </AppDescriptions>
             <Row justify='center'>
               <Space direction='horizontal' size='middle'>
-                <Button
-                  type='primary'
+                <AppButton
+                  type='secondary'
                   style={{ minWidth: 100 }}
                   onClick={() => navigate('/system/holidays')}
-                  ghost
                 >
                   戻る
-                </Button>
-                <Button
-                  type='primary'
+                </AppButton>
+                <AppButton
+                  type='danger'
                   style={{ minWidth: 100 }}
                   onClick={() => setShowConfirm(true)}
-                  danger
                 >
                   削除
-                </Button>
+                </AppButton>
                 <Modal
                   title='確認'
                   open={showConfirm}
@@ -88,8 +91,8 @@ const HolidayDetailPage = () => {
                 </Modal>
               </Space>
             </Row>
-          </Space>
-        </Card>
+          </Flex>
+        </AppCard>
       )}
     </LoginRequired>
   )
