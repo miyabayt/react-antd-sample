@@ -34,7 +34,7 @@ const AppBadge = forwardRef<React.ElementRef<typeof Badge>, AppBadgeProps>(
     return (
       <Badge.Ribbon
         {...restProps}
-        className='app-label no-corner'
+        className='app-label'
         text={<span style={{ color: textColor }}>{text}</span>}
       />
     )

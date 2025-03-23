@@ -4,7 +4,7 @@ import type { ModalProps } from 'antd'
 import { Grid, Modal } from 'antd'
 import { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Draggable from 'react-draggable'
+import { Rnd } from 'react-rnd'
 import modalStyles from './styles'
 
 export interface AppModalProps extends ModalProps {
@@ -57,7 +57,7 @@ const AppModal = (props: AppModalProps) => {
               {movable ? (
                 <>
                   <Global styles={styles.global} />
-                  <Draggable onMouseDown={handleMouseDown}>{modal}</Draggable>
+                  <Rnd onMouseDown={handleMouseDown}>{modal}</Rnd>
                 </>
               ) : (
                 <>{modal}</>

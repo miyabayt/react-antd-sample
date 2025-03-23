@@ -1,6 +1,7 @@
 import dayjs, { type Dayjs, extend, locale } from 'dayjs'
 import 'dayjs/locale/ja'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import isBetween from 'dayjs/plugin/isBetween'
 import isLeapYear from 'dayjs/plugin/isLeapYear'
 import localeData from 'dayjs/plugin/localeData'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -11,6 +12,7 @@ locale('ja')
 extend(relativeTime)
 extend(utc)
 extend(timezone)
+extend(isBetween)
 extend(isLeapYear)
 extend(customParseFormat)
 extend(localeData)
