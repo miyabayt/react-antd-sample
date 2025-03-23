@@ -8,6 +8,7 @@ type AppTagProps = TagProps & {
   checked?: boolean
   onChecked?: (checked: boolean) => void
   colorChecked?: string
+  borderColor?: string
 }
 
 const AppTag = (props: AppTagProps) => {
@@ -19,6 +20,7 @@ const AppTag = (props: AppTagProps) => {
     checked = false,
     onChecked,
     colorChecked = color,
+    borderColor = 'transparent',
     ...restProps
   } = props
   const { token } = theme.useToken()
@@ -65,6 +67,7 @@ const AppTag = (props: AppTagProps) => {
       text-align: center;
       font-size: ${fontSize}px;
       ${checkable ? 'cursor: pointer;' : null}
+      ${borderColor ? `border-color: ${borderColor} !important` : null}
     `,
 
     roundTag: css`
@@ -74,6 +77,7 @@ const AppTag = (props: AppTagProps) => {
       text-align: center;
       font-size: ${fontSize}px;
       ${checkable ? 'cursor: pointer;' : null}
+      ${borderColor ? `border-color: ${borderColor} !important` : null}
     `,
   }
 
