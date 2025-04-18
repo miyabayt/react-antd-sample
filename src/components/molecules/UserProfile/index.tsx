@@ -77,6 +77,7 @@ const UserProfile = () => {
           <Button
             type='link'
             onClick={(e) => e.preventDefault()}
+            onKeyUp={(e) => e.preventDefault()}
             style={{ padding: 0 }}
           >
             <Space>

@@ -12,7 +12,7 @@ const usePagination = () => {
   const pages = usePaginationStore((state) => state.pages)
   const sorts = usePaginationStore((state) => state.sorts)
   const pagination = useMemo(
-    () => pages[pathname] || { current: 0, pageSize: DEFAULT_PAGE_SIZE },
+    () => pages[pathname] || { current: 1, pageSize: DEFAULT_PAGE_SIZE },
     [pathname, pages],
   )
   const sort = useMemo(() => sorts[pathname], [pathname, sorts])

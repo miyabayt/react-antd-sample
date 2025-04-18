@@ -21,7 +21,15 @@ type AppFormProps = Omit<FormProps, 'children'> & {
 }
 
 const AppForm = forwardRef<React.ElementRef<typeof Form>, AppFormProps>(
-  ({ form, bordered = false, ...restProps }: AppFormProps, ref) => {
+  (
+    {
+      form,
+      bordered = false,
+      onFinish: propOnFinish,
+      ...restProps
+    }: AppFormProps,
+    ref,
+  ) => {
     const { modal } = App.useApp()
     const { token } = theme.useToken()
     const styles = getStyles(token)
@@ -87,12 +95,21 @@ const AppForm = forwardRef<React.ElementRef<typeof Form>, AppFormProps>(
       { capture: true },
     )
 
+    // biome-ignore lint/suspicious/noExplicitAny: _
+    const onFinishWrapper = (values: any) => {
+      setIsFormTouched(false)
+      if (propOnFinish) {
+        propOnFinish(values)
+      }
+    }
+
     return (
       <div css={bordered && styles.bordered}>
         <Form
           ref={ref}
           {...restProps}
           form={form}
+          onFinish={onFinishWrapper}
           labelAlign='left'
           validateMessages={validateMessages}
           requiredMark={requiredMark}

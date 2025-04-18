@@ -17,12 +17,13 @@ const AppRadioGroup = forwardRef<
       {...props}
       style={{
         display: 'flex',
-        flexDirection: horizontal ? 'row' : 'column',
-        gap: '8px',
+        flexDirection: horizontal ? 'column' : undefined,
+        gap: horizontal ? '8px' : undefined,
       }}
     />
   )
 })
+
 AppRadioGroup.displayName = 'AppRadioGroup'
 
 export default AppRadioGroup

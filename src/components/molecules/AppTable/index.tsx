@@ -104,6 +104,7 @@ const AppTable = (props: AppTableProps) => {
       )}
       <Table
         ref={tableRef}
+        columns={columns}
         dataSource={dataSource}
         pagination={pagination}
         showHeader={showHeader}

@@ -6,7 +6,7 @@ export type updateStaffParams = {
 }
 
 const updateStaff = async ({ staff }: updateStaffParams): Promise<Staff> => {
-  return await fetcher(`/system/staff${staff.id}`, {
+  return await fetcher(`/system/staff/${staff.id}`, {
     method: 'PUT',
     data: staff,
   }).then(({ data }) => data?.data)

@@ -5,8 +5,10 @@ import AppCalendar from '@/components/molecules/AppCalendar'
 import AppCard from '@/components/molecules/AppCard'
 import { toDayjs } from '@/utils/dayjs'
 import { Avatar, Flex, Space } from 'antd'
+import { useRef } from 'react'
 
 const TopPage = () => {
+  const parentRef = useRef(null)
   const holidays = toDayjs([
     '2025-01-01',
     '2025-01-02',
@@ -17,7 +19,7 @@ const TopPage = () => {
 
   return (
     <LoginRequired>
-      <Flex gap={16} wrap>
+      <Flex ref={parentRef} gap={16} wrap>
         <Flex gap={16} flex={1} vertical>
           <AppCard title='AppButton' style={{ minWidth: 600 }}>
             <Flex gap='large' wrap>
@@ -79,16 +81,21 @@ const TopPage = () => {
             </Flex>
           </AppCard>
         </Flex>
-        <Flex gap={16} flex={1} vertical>
-          <AppCard title='AppCalendar'>
-            <AppCalendar
-              holidays={holidays}
-              events={'https://fullcalendar.io/api/demo-feeds/events.json'}
-              selectable
-              selectMirror
-            />
-          </AppCard>
-        </Flex>
+        <div style={{ width: '100%' }}>
+          <Flex gap={16} flex={1} vertical>
+            <AppCard title='AppCalendar'>
+              <AppCalendar
+                holidays={holidays} // 祝日
+                firstDay={1} // 月曜日から始まる
+                events={'https://fullcalendar.io/api/demo-feeds/events.json'}
+                dayMaxEvents // 高さが固定される
+                drawerGetContainer={() =>
+                  parentRef.current as unknown as HTMLDivElement
+                }
+              />
+            </AppCard>
+          </Flex>
+        </div>
       </Flex>
     </LoginRequired>
   )

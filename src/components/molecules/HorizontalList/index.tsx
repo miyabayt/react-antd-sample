@@ -29,7 +29,7 @@ const HorizontalList = (props: HorizontalListProps) => {
   const { token } = theme.useToken()
   const {
     title,
-    items,
+    items = [],
     justify = 'flex-start',
     gap = 16,
     bordered = false,

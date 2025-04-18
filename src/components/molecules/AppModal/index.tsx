@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom'
 import { Rnd } from 'react-rnd'
 import modalStyles from './styles'
 
-export interface AppModalProps extends ModalProps {
+export interface AppModalProps extends Omit<ModalProps, 'width'> {
   movable?: boolean
+  width?: number
 }
 
 const AppModal = (props: AppModalProps) => {
@@ -19,7 +20,7 @@ const AppModal = (props: AppModalProps) => {
     mask = true,
     maskClosable = true,
     title = null,
-    footer = null,
+    footer,
     movable = false,
     width = screens.lg ? 800 : 600,
     height,
@@ -57,7 +58,9 @@ const AppModal = (props: AppModalProps) => {
               {movable ? (
                 <>
                   <Global styles={styles.global} />
-                  <Rnd onMouseDown={handleMouseDown}>{modal}</Rnd>
+                  <Rnd onMouseDown={handleMouseDown} minWidth={width}>
+                    {modal}
+                  </Rnd>
                 </>
               ) : (
                 <>{modal}</>

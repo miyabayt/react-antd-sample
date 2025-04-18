@@ -43,7 +43,7 @@ const StaffSearchPage = () => {
 
   const handleSearch = (values: FormData) => {
     setPagination({
-      current: 0, // 1ページ目に戻す
+      current: 1, // 1ページ目に戻す
       pageSize: pagination.pageSize,
     })
     setQuery({ ...values, ...pagination })

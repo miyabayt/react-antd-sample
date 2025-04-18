@@ -88,7 +88,7 @@ const SettingMenu: React.FC<SettingMenuProps> = ({
 
         return {
           key: fieldName,
-          label: col.headerName,
+          label: col.headerName || col.field,
           style: { minWidth: 200 },
           children: [
             {

@@ -35,7 +35,7 @@ const AppSelect = forwardRef<React.ElementRef<typeof Select>, AppSelectProps>(
       props.color === 'danger' ? styles.colorError : styles.colorDefault
 
     const style = {
-      minWidth: narrow ? 0 : 120,
+      minWidth: narrow ? undefined : 120,
       ...props.style,
     }
 

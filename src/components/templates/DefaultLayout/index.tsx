@@ -1,4 +1,5 @@
 import LoadingSpinner from '@/components/atoms/LoadingSpinner'
+import LoginRequired from '@/components/atoms/LoginRequired'
 import AppBreadcrumb from '@/components/molecules/AppBreadcrumb'
 import AppFooter from '@/components/organisms/AppFooter'
 import AppHeader from '@/components/organisms/AppHeader'
@@ -13,19 +14,21 @@ const DefaultLayout = () => {
   return (
     <Layout>
       <Global styles={globalStyles} />
-      <AppSidebar />
-      <Layout>
-        <AppHeader />
-        <div css={styles.contentContainer}>
-          <Layout.Content css={styles.content}>
-            <AppBreadcrumb />
-            <React.Suspense fallback={<LoadingSpinner loading={true} />}>
-              <Outlet />
-            </React.Suspense>
-          </Layout.Content>
-        </div>
-        <AppFooter />
-      </Layout>
+      <LoginRequired>
+        <AppSidebar />
+        <Layout>
+          <AppHeader />
+          <div css={styles.contentContainer}>
+            <Layout.Content css={styles.content}>
+              <AppBreadcrumb />
+              <React.Suspense fallback={<LoadingSpinner loading={true} />}>
+                <Outlet />
+              </React.Suspense>
+            </Layout.Content>
+          </div>
+          <AppFooter />
+        </Layout>
+      </LoginRequired>
     </Layout>
   )
 }
