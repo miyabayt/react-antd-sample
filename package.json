@@ -16,7 +16,9 @@
     "test:e2e": "npm run build:mock-server && npx playwright test",
     "build:mock-server": "docker build -t sample-mock-server ./mock-server",
     "eject": "craco eject",
-    "prepare": "npx lefthook install"
+    "prepare": "npx lefthook install",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
