@@ -3,22 +3,21 @@ import { Layout } from 'antd'
 
 import AppFooter from '@/components/organisms/AppFooter'
 import AppHeader from '@/components/organisms/AppHeader'
+import { Outlet } from 'react-router-dom'
 
-const { Content } = Layout
-
-type LayoutProps = Required<{
-  readonly children: React.ReactElement
-}>
-
-const ErrorPageLayout = ({ children }: LayoutProps) => {
+const ErrorPageLayout = () => {
   return (
     <Layout>
       <Layout>
-        <AppHeader showTrigger={false} showAppLogo={true} />
+        <AppHeader
+          showTrigger={false}
+          showAppLogo={true}
+          showUserProfile={false}
+        />
         <div css={styles.contentContainer}>
-          <Content css={styles.content}>
-            <main>{children}</main>
-          </Content>
+          <Layout.Content css={styles.content}>
+            <Outlet />
+          </Layout.Content>
         </div>
         <AppFooter />
       </Layout>

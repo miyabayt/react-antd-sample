@@ -3,6 +3,8 @@ import routes from '@/configs/routes'
 import LoginPage from '@/pages/login'
 import { Outlet, type RouteObject, createBrowserRouter } from 'react-router'
 import { RouterProvider } from 'react-router'
+import ErrorPageLayout from './components/templates/ErrorPageLayout'
+import ErrorPage from './pages/error'
 
 function App() {
   const renderRoutes = (routes: RouteObject[]): RouteObject[] => {
@@ -28,6 +30,35 @@ function App() {
           element: <LoginPage />,
         },
         ...renderRoutes(routes),
+        {
+          element: <ErrorPageLayout />,
+          children: [
+            {
+              path: '/error',
+              element: (
+                <ErrorPage description='予期せぬエラーが発生しました。' />
+              ),
+            },
+            {
+              path: '/notfound', // 404エラー
+              element: (
+                <ErrorPage
+                  description='ページが見つかりません。'
+                  type='warning'
+                />
+              ),
+            },
+            {
+              path: '*', // 404エラー
+              element: (
+                <ErrorPage
+                  description='ページが見つかりません。'
+                  type='warning'
+                />
+              ),
+            },
+          ],
+        },
       ],
     },
   ])
